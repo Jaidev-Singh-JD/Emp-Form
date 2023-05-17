@@ -12,6 +12,7 @@ export class MyElement extends LitElement {
       empForm: { type: Object },
       EmailChecked: { type: String },
       PhoneChecked: { type: String },
+      EmpFormData: { type: Array },
     };
   }
 
@@ -32,6 +33,7 @@ export class MyElement extends LitElement {
       city: { value: "", isValidName:false,errorMessage: "" },
       state: { value: "", isValidName:false,errorMessage: "" },
     };
+    this.EmpFormData = [];
   }
 
   static get styles() {
@@ -935,8 +937,25 @@ export class MyElement extends LitElement {
       this.empForm.landmark.isValidName === true &&
       this.empForm.zipcode.isValidName === true
     ) {
+      let empdata = {
+        name: this.empForm.name.value,
+        empCode: this.empForm.empCode.value,
+        email: this.empForm.email.value,
+        phone: this.empForm.phone.value,
+        designation: this.empForm.designation.value,
+        department: this.empForm.department.value,
+        address: this.empForm.address.value,
+        address1: this.empForm.address1.value,
+        landmark: this.empForm.landmark.value,
+        country: this.empForm.country.value,
+        state: this.empForm.state.value,
+        city: this.empForm.city.value,
+        zipcode: this.empForm.zipcode.value,
+      };
+      this.EmpFormData.push(empdata);
       const form = this.renderRoot.querySelector("form");
-      localStorage.setItem("myFormData", JSON.stringify(this.empForm));
+      localStorage.setItem("myFormData", JSON.stringify(this.EmpFormData));
+      this.empForm.address1.value=""
       form.reset();
       alert("Form submitted Successfully into local storage");
     }
