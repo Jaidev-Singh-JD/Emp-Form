@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: linear-gradient(45deg,#66a924,	#74ebd5,#242734,#9face6,#0b2822)0 0 /1000% no-repeat;
+    animation: animate 20s ease infinite;
+  }
+  @keyframes animate{
+    0%{
+    background-position: 0 30%, 0 0;
+  }
+  50%{
+    background-position: 100% 70%, 0 0;
+  }
+  100%{
+    background-position: 0 30%, 0 0;
+  }  
+}

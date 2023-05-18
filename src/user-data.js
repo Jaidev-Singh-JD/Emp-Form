@@ -149,7 +149,8 @@ export class Userdata extends LitElement {
         /* background: linear-gradient(to right, #74ebd5, #9face6); */
       }
       .btn-update{
-        background: linear-gradient(to left, #286e32, #4ddb50);
+        /* background: linear-gradient(to left, #16bc00, #003e01); */
+        background:green;
         border-radius: 6px;
         border: none;
         outline: none;
@@ -161,11 +162,12 @@ export class Userdata extends LitElement {
         font-weight: bold;
         text-transform: uppercase;
         cursor: pointer;
-        color: #0a0a0a;
+        color: #ffffff;
         transition: all 1s ease;
       }
       .btn-delete {
-        background: linear-gradient(to left, #d26618, #fd2f01);
+        /* background: linear-gradient(to left, #da0000, #561709); */
+        background:red;
         border-radius: 6px;
         border: none;
         outline: none;
@@ -177,7 +179,7 @@ export class Userdata extends LitElement {
         font-weight: bold;
         text-transform: uppercase;
         cursor: pointer;
-        color: #0a0a0a;
+        color: #ffffff;
         transition: all 1s ease;
       }
     `;
