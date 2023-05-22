@@ -1,5 +1,4 @@
 import { LitElement, css, html } from 'lit'
-import litlogo from './assets/icons8-joyent.svg'
 
 export class MyNav extends LitElement {
 
@@ -7,11 +6,11 @@ export class MyNav extends LitElement {
         return html`   
         <nav id="navbar">
             <ul>
-                <img src=${litlogo} id="logo1">
-                <li id="logo">Omni</label></li>
+                <img src="src/assets/omni.webp" id="logo1">
+                <li id="logo">omni</label></li>
             <div id="right">
                 <a href="index.html">Home</a>
-                <a href="empdata.html">Saved Data</a>
+                <a href="empdata.html">Saved data</a>
             </div>
             </ul>
     </nav>`
@@ -19,7 +18,7 @@ export class MyNav extends LitElement {
     static get styles() {
         return css`
     #navbar{
-        background-color:#66c2ff;
+        background-color:#0c0120;
         height:60px;
         padding:2px;
     }
@@ -27,29 +26,38 @@ export class MyNav extends LitElement {
         font-size:30px;
         color:whitesmoke;
         font-weight:bolder;
-        font-style:sans-serif;
-        
+        font-family:Montserrat;
+        margin:-2px;
+        padding:-1px;
+        position:absolute;
+        left:105px;
+        top:13px;
     }
     ul{
-    list-style-type: none;
-    display:flex;
+        list-style-type: none;
+        display:flex;
     }
     a{
         text-decoration:none;
+        font-family:Mulish;
+        color:whitesmoke;
         float:right;
-        margin:10px;
-        border: 2px solid blue;
+        margin:3px;
         padding:2px;
         border-radius:5px;
+        cursor:pointer;
     }
     #logo1{
-        margin-top:-25px;
-        padding:12px;
+     width:35px;
+     cursor:pointer;
+     position: absolute;
+     left: 50px;
+     top: 13px;
     }
     #right{
         display:flex;
         position: absolute;
-        right: 100px;
+        right: 50px;
     }
     `
     }

@@ -1,12 +1,12 @@
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
-body{
-    box-sizing:border box;
-    background: linear-gradient(45deg,#66a924,	#74ebd5,#242734,#9face6,#0b2822)0 0 /1000% no-repeat;
+ body{
+    background: linear-gradient(45deg,#a69300,	#314641,#242734,#000d45,#0080ff)0 0 /1000% no-repeat;
     animation: animate 20s ease infinite;
-  }
+    }
   @keyframes animate{
     0%{
     background-position: 0 30%, 0 0;
@@ -16,5 +16,5 @@ body{
   }
   100%{
     background-position: 0 30%, 0 0;
-  }  
+  }   
 }
