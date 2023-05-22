@@ -549,7 +549,7 @@ export class MyElement extends LitElement {
           this.empForm = {
             ...this.empForm,
             email: {
-              value: `official: ${e.target.value}`,
+              value: `${e.target.value} (official)`,
               isValidName: true,
               errorMessage: "",
             },
@@ -561,7 +561,7 @@ export class MyElement extends LitElement {
           this.empForm = {
             ...this.empForm,
             email: {
-              value: `Personal:${e.target.value}`,
+              value: `${e.target.value} (Personal)`,
               isValidName: true,
               errorMessage: "",
             },
@@ -602,7 +602,7 @@ export class MyElement extends LitElement {
           this.empForm = {
             ...this.empForm,
             phone: {
-              value: `Primary:${e.target.value} `,
+              value: `${e.target.value} (Primary)`,
               isValidName: true,
               errorMessage: "",
             },
@@ -616,7 +616,7 @@ export class MyElement extends LitElement {
           this.empForm = {
             ...this.empForm,
             phone: {
-              value: `Secondary:${e.target.value} `,
+              value: `${e.target.value} (Secondary)`,
               isValidName: true,
               errorMessage: "",
             },
@@ -630,7 +630,7 @@ export class MyElement extends LitElement {
           this.empForm = {
             ...this.empForm,
             phone: {
-              value: `Emergency:${e.target.value} `,
+              value: `${e.target.value} (Emergency)`,
               isValidName: true,
               errorMessage: "",
             },
@@ -752,7 +752,7 @@ export class MyElement extends LitElement {
         this.empForm = {
           ...this.empForm,
           address1: {
-            value: `Optional Address:${e.target.value} `,
+            value: `${e.target.value} (optional)`,
           },
         };
         break;
