@@ -22,6 +22,7 @@ export class Userdata extends LitElement {
     this.savedName = "";
     this.savedEmpCode = "";
     this.ascending = false;
+    console.log(this.savedData);
   }
   render() {
     return html`
@@ -62,7 +63,7 @@ export class Userdata extends LitElement {
                     class="btn-delete"
                     @click=${() => this.deletecondition(index)}
                   >
-                    <img src="src/assets/delete.png" id="dlogo" />
+                    &#10006
                   </button>
                 </div>
               </div>
@@ -249,13 +250,11 @@ export class Userdata extends LitElement {
         opacity: 0.8;
       }
       .btn-delete {
-        height: 30px;
-        background-color: #ffffff;
+        background:none;
         border: none;
-        outline: none;
+        border-radius:50px;
         cursor: pointer;
         position: absolute;
-        border-radius: 50px;
         top: 10px;
         left: 10px;
       }
@@ -341,12 +340,7 @@ export class Userdata extends LitElement {
       .btn-sort:hover .tooltip-text {
         visibility: visible;
       }
-      #dlogo {
-        width: 100%;
-        height: 20px;
-        cursor: pointer;
-        background-position: fill;
-      }.out{
+      .out{
         width: 100%;
         filter: blur(8px);
        -webkit-filter: blur(8px);
