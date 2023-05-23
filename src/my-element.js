@@ -952,9 +952,11 @@ export class MyElement extends LitElement {
         city: this.empForm.city.value,
         zipcode: this.empForm.zipcode.value,
       };
-      this.EmpFormData.push(empdata);
+      
+      const Data = JSON.parse(localStorage.getItem('myFormData')) || [];
+      Data.push(empdata);
+      localStorage.setItem("myFormData", JSON.stringify(Data));
       const form = this.renderRoot.querySelector("form");
-      localStorage.setItem("myFormData", JSON.stringify(this.EmpFormData));
       this.empForm.address1.value=""
       form.reset();
       alert("Form submitted Successfully into local storage");
