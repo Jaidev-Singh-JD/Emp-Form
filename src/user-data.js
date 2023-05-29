@@ -1,16 +1,13 @@
-import { LitElement, css, html } from "lit";
+import { LitElement, css, html, nothing } from "lit";
 import { repeat } from "lit/directives/repeat.js";
+import "./my-element";
 
 export class Userdata extends LitElement {
   static get properties() {
     return {
       savedData: { type: Array },
       index: { type: Number },
-      savedName: { type: String },
-      savedEmpCode: { type: String },
-      savedEmail: { type: String },
-      savedDesignation: { type: String },
-      savedDepartment: { type: String },
+      editData: { type: Object },
       ascending: { type: Boolean },
     };
   }
@@ -19,8 +16,7 @@ export class Userdata extends LitElement {
     super();
     this.savedData = JSON.parse(localStorage.getItem("myFormData")) || [];
     this.index = -1;
-    this.savedName = "";
-    this.savedEmpCode = "";
+    this.editData = undefined;
     this.ascending = false;
   }
   render() {
@@ -32,6 +28,19 @@ export class Userdata extends LitElement {
           >Sort</span
         >
       </button>
+
+      ${this.editData
+        ? html` <dialog id="popUpForm">
+            <my-element
+              isEditing
+              .editData=${this.editData}
+              .savedData=${this.savedData}
+              ><button class="btn-cancel" @click=${this.cancelData}>
+                Close modal
+              </button></my-element
+            >
+          </dialog>`
+        : nothing}
       ${repeat(
         this.savedData,
         (item, index) => html`
@@ -70,72 +79,6 @@ export class Userdata extends LitElement {
           </div>
         `
       )}
-
-      <dialog id="popUpForm">
-        <div class="container1">
-          <header class="header">
-            <h2>Update Data</h2>
-          </header>
-          <form method="dialog" class="form">
-            <div class="form-control">
-              <label for="name">Name</label>
-              <input
-                spellcheck="false"
-                autocomplete="off"
-                type="text"
-                id="name"
-                disabled
-                value=${this.savedName}
-              />
-            </div>
-            <div class="form-control">
-              <label for="empCode">Emp Code</label>
-              <input
-                spellcheck="false"
-                autocomplete="off"
-                type="text"
-                id="empCode"
-                disabled
-                value=${this.savedEmpCode}
-              />
-            </div>
-            <div class="form-control">
-              <label for="email">Email</label>
-              <input
-                spellcheck="false"
-                autocomplete="off"
-                type="email"
-                id="email"
-                value=${this.savedEmail}
-              />
-            </div>
-            <div class="form-control">
-              <label for="desgination">Designation</label>
-              <input
-                type="text"
-                id="designation"
-                value=${this.savedDesignation}
-                autocomplete="off"
-                spellcheck="false"
-              />
-            </div>
-            <div class="form-control">
-              <label for="departement">Department</label>
-              <input
-                type="text"
-                id="department"
-                value=${this.savedDepartment}
-                autocomplete="off"
-                spellcheck="false"
-              />
-            </div>
-            <button class="btn" @click=${this.updateData} type="submit">
-              Update
-            </button>
-            <button class="btn" @click=${this.cancelData}>Cancel</button>
-          </form>
-        </div>
-      </dialog>
     `;
   }
   sortitem() {
@@ -157,35 +100,37 @@ export class Userdata extends LitElement {
   updateitem(index) {
     this.index = index;
     const items = this.savedData[index];
-    this.savedName = items.name;
-    this.savedEmpCode = items.empCode;
-    this.savedEmail = items.email;
-    this.savedDesignation = items.designation;
-    this.savedDepartment = items.department;
-    this.popUpForm();
+    this.editData = items;
+
+    requestAnimationFrame(() => {
+      this.popUpForm();
+    });
   }
   popUpForm() {
     const popUp = this.renderRoot.querySelector("#popUpForm");
     popUp.showModal();
   }
 
-  updateData(e) {
-    e.preventDefault();
-    const UpdatedName = this.shadowRoot.querySelector("#name").value;
-    const UpdatedEmpCode = this.shadowRoot.querySelector("#empCode").value;
-    const UpdatedEmail = this.shadowRoot.querySelector("#email").value;
-    if (UpdatedName && UpdatedEmpCode) {
-      const items = this.savedData[this.index];
-      items.name = UpdatedName;
-      items.empCode = UpdatedEmpCode;
-      items.email = UpdatedEmail;
-      localStorage.setItem("myFormData", JSON.stringify(this.savedData));
-      window.location.reload();
-      this.requestUpdate();
-    }
-  }
+  // updateData(e) {
+  //   e.preventDefault();
+  //   const UpdatedName = this.shadowRoot.querySelector("#name").value;
+  //   const UpdatedEmpCode = this.shadowRoot.querySelector("#empCode").value;
+  //   const UpdatedEmail = this.shadowRoot.querySelector("#email").value;
+  //   if (UpdatedName && UpdatedEmpCode) {
+  //     const items = this.savedData[this.index];
+  //     items.name = UpdatedName;
+  //     items.empCode = UpdatedEmpCode;
+  //     items.email = UpdatedEmail;
+  //     localStorage.setItem("myFormData", JSON.stringify(this.savedData));
+  //     window.location.reload();
+  //     this.requestUpdate();
+  //   }
+  // }
 
   cancelData() {
+    this.editData = undefined;
+    const popUp = this.renderRoot.querySelector("#popUpForm");
+    popUp.close();
     window.location.reload();
   }
 
@@ -346,88 +291,78 @@ export class Userdata extends LitElement {
         height: 20px;
         cursor: pointer;
         background-position: fill;
-      }.out{
+      }
+      .out {
         width: 100%;
         filter: blur(8px);
-       -webkit-filter: blur(8px);
+        -webkit-filter: blur(8px);
       }
       #popUpForm {
-        border:none;
+        border: none;
         outline: none;
-        width: 400px;
-        height: 480px;
-        border-radius:10px;
-        -webkit-border-radius:10px;
+        width: 70%;
+        height: 70%;
+        padding: 0px;
+      }
+      dialog::-webkit-scrollbar {
+        width: 3px;
+      }
+
+      dialog::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      }
+
+      dialog::-webkit-scrollbar-thumb {
+        background-color: #000000;
+        outline: 1px solid slategrey;
+      }
+      .btn-cancel {
+        background: linear-gradient(to left, #74ebd5, #9face6);
+        border-radius: 6px;
+        border: none;
+        outline: none;
+        display: block;
+        font-size: 16px;
+        padding: 15px 0;
+        margin-top: 20px;
+        width: 101%;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        color: #000000;
+        transition: all 1s ease;
+      }
+      .btn-cancel:hover {
+        background: linear-gradient(to right, #74ebd5, #9face6);
       }
       #popUpForm::backdrop {
-        background:#0b23a9;
-        opacity:0.6;
+        background: #0b23a9;
+        opacity: 0.6;
       }
-      .header h2{
-      color:#222;
-      font-family: 'Montserrat', sans-serif;
-      font-size:20px;
-      text-transform:uppercase;
-      text-align:center;
-    } 
-    .header {
-      background:linear-gradient(to left,#74ebd5,	#9face6);
-      padding:2px;
-    }
-    .container1{
-      background-color: #fff;
-     border-radius:10px;
-     -webkit-border-radius:10px;
-     overflow:hidden;
-     width:100%;
-     box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12. ;
-     background:#e9f6f4;
-     position:absolute;
-     top:0px;
-     right:0px;
-    }
-    .form{
-      padding: 20px;
-    }
-    .form-control label{
-      display:block;
-      margin-bottom:2px;
-      font-weight:bold;
-      font-family: 'Mulish', sans-serif;
-      font-size:15px;
-    }
-    .form-control input{
-      width:90%;
-      height:5px;
-      border:2px solid #f0f0f0
-      border-radius:5px;
-      display:block;
-      font-family: 'Mulish', sans-serif;
-      font-size:12px;
-      padding:12px;
-    }
-    .form-control input:focus{
-      outline:0;
-      border-color:#777
-    }
-    .form .btn {
-      background:linear-gradient(to left,#74ebd5,	#9face6);
-      border-radius:6px;
-      border:none;
-      outline:none;
-      font-size:16px;
-      padding:15px 0;
-      margin-top:20px;
-      width:97.5%;
-      font-weight:bold;
-      text-transform:uppercase;
-      cursor:pointer;
-      color:#000000;
-      transition:all 1s ease;
-    }
-    .form .btn:hover{
-      background:linear-gradient(to right,#74ebd5,	#9face6);
-    }
+      .header h2 {
+        color: #222;
+        font-family: "Montserrat", sans-serif;
+        font-size: 20px;
+        text-transform: uppercase;
+        text-align: center;
+      }
+      .header {
+        background: linear-gradient(to left, #74ebd5, #9face6);
+        padding: 2px;
+      }
+      .container1 {
+        background-color: #fff;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        overflow: hidden;
+        width: 100%;
+        box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+          0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12;
+        background: #e9f6f4;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+      }
     `;
   }
 }
