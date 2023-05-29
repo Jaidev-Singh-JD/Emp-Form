@@ -8,6 +8,11 @@ Employee Form using lit+vite, Javascript ,CSS, HTML
 <li>npm run dev</li>
 </ul>
 
-Project Images
+<h1>Project Images</h1>
+Form component
+
+![image](https://github.com/JD-ANNALECT/Emp-Form/assets/120723984/acbde02d-4e34-4c83-a4cb-8efa7e566d04)
+
 ![image](https://github.com/JD-ANNALECT/Emp-Form/assets/120723984/d7752a6a-abeb-4ff9-bbbb-f530580a6c10)
-![image](https://github.com/JD-ANNALECT/Emp-Form/assets/120723984/1a74ed2e-0697-4595-b340-e5d7a3f5a226)
+![image](https://github.com/JD-ANNALECT/Emp-Form/assets/120723984/7961edd6-ba11-4adc-8011-8e25b243045a)
+
