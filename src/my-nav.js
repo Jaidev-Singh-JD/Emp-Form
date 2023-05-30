@@ -57,7 +57,7 @@ export class MyNav extends LitElement {
     #right{
         display:flex;
         position: absolute;
-        right: 50px;
+        right: 70px;
     }
     `
     }

@@ -1,7 +1,8 @@
 import { LitElement, css, html, nothing } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import "./my-element";
-
+import "@shoelace-style/shoelace/dist/themes/dark.css";
+import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js";
 export class Userdata extends LitElement {
   static get properties() {
     return {
@@ -21,13 +22,11 @@ export class Userdata extends LitElement {
   }
   render() {
     return html`
-      <button class="btn-sort" @click=${this.sortitem}>
-        <img src="src/assets/sort.png" id="slogo" /><span
-          class="tooltip-text"
-          id="top"
-          >Sort</span
-        >
-      </button>
+      <sl-tooltip content="Sort">
+        <sl-button class="btn-sort" @click=${this.sortitem}>
+          <img src="src/assets/sort.png" id="slogo"
+        /></sl-button>
+      </sl-tooltip>
 
       ${this.editData
         ? html` <dialog id="popUpForm">
@@ -147,6 +146,9 @@ export class Userdata extends LitElement {
   }
   static get styles() {
     return css`
+      sl-button{
+        background-color:#000;
+      }
       .wrapper {
         display: inline-flex;
       }
@@ -263,12 +265,15 @@ export class Userdata extends LitElement {
         position: absolute;
         top: 17px;
         right: 10px;
+        
+      }
+      .btn-sort::part(base){
+        background-color:#000;
         outline: none;
         border: none;
-        background-color: #0c0120;
       }
       #slogo {
-        width: 30px;
+        width: 20px;
         height: 30px;
         cursor: pointer;
       }

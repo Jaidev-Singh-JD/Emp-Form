@@ -5,6 +5,11 @@ import { department } from "./assets/department";
 import { city } from "./assets/city";
 import { state } from "./assets/state";
 import { country } from "./assets/country";
+import "@shoelace-style/shoelace/dist/themes/light.css";
+import "@shoelace-style/shoelace/dist/components/button/button.js";
+import "@shoelace-style/shoelace/dist/components/input/input.js";
+import '@shoelace-style/shoelace/dist/components/select/select.js';
+import '@shoelace-style/shoelace/dist/components/option/option.js';
 
 export class MyElement extends LitElement {
   static get properties() {
@@ -16,6 +21,7 @@ export class MyElement extends LitElement {
       isEditing: { type: Boolean },
       editData: { type: Object },
       savedData: { type: Array },
+      storedempdata: { type: Object },
     };
   }
 
@@ -39,6 +45,7 @@ export class MyElement extends LitElement {
     };
     this.EmpFormData = [];
     this.isEditing = false;
+    this.storedempdata = {};
   }
 
   static get styles() {
@@ -180,7 +187,7 @@ export class MyElement extends LitElement {
 `;
   }
 
-  // loop to get the data in the input field 
+  // loop to get the data in the input field
   firstUpdated() {
     if (this.isEditing) {
       console.log("is editing");
@@ -207,7 +214,9 @@ export class MyElement extends LitElement {
       }
       this.renderRoot.querySelector("#phone-input").value = this.editData.phone;
       // console.log(this.editData.phone);
-      this.renderRoot.querySelector("#zip").value = Number(this.editData.zipcode);
+      this.renderRoot.querySelector("#zip").value = Number(
+        this.editData.zipcode
+      );
       // run a function to pre-fill form
     } else {
       console.log("creating new");
@@ -216,102 +225,35 @@ export class MyElement extends LitElement {
 
   decider(e, type) {
     if (this.isEditing) {
-      switch (type) {
-        case "empName":
-          {
-            this.editData.name = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-        case "empCode":
-          {
-            this.editData.empCode = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-        case "email":
-          {
-            this.editData.email = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-        case "address":
-          {
-            this.editData.address = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-        case "address1":
-          {
-            this.editData.address1 = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-        case "landmark":
-          {
-            this.editData.landmark = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-        case "designation":
-          {
-            this.editData.designation = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-        case "department":
-          {
-            this.editData.department = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-        case "country":
-          {
-            this.editData.country = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-        case "city":
-          {
-            this.editData.city = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-        case "state":
-          {
-            this.editData.state = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-        case "phone":
-          {
-            this.editData.phone = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-        case "zipCode":
-          {
-            this.editData.zipcode = e.target.value;
-            console.log(this.editData);
-            this.validateForm(e, type);
-          }
-          break;
-      }
+      this.editData[type] = e.target.value;
+      this.validateForm(e, type);
     } else {
+      this.storedempdata[type] = e.target.value;
       this.validateForm(e, type);
     }
+  }
+
+  error_false(type, error) {
+    this.empForm = {
+      ...this.empForm,
+      [type]: {
+        isValidName: false,
+        errorMessage: error,
+      },
+    };
+  }
+  error_true(type, error) {
+    this.empForm = {
+      ...this.empForm,
+      [type]: {
+        isValidName: true,
+        errorMessage: error,
+      },
+    };
+  }
+
+  test() {
+    console.log("here");
   }
 
   render() {
@@ -330,17 +272,19 @@ export class MyElement extends LitElement {
           >
             <div class="form-control">
               <label for="name-input"> UserName*</label>
-              <input
+              <sl-input
                 type="text"
                 id="name-input"
                 required
                 autocomplete="off"
                 placeholder="Enter your Fullname "
-                @input=${(e) => this.decider(e, "empName")}
+                @input=${(e) => this.decider(e, "name")}
                 style=${this.empForm.name?.errorMessage
                   ? "border: solid 3px red;"
                   : ""}
-              />
+                placeholder="Clearable"
+                clearable
+              ></sl-input>
               <p id="display">${this.empForm.name.errorMessage}</p>
             </div>
 
@@ -420,7 +364,7 @@ export class MyElement extends LitElement {
                       placeholder="Enter your phone"
                       autocomplete="off"
                       required
-                      @input=${(e) => this.decider (e, "phone")}
+                      @input=${(e) => this.decider(e, "phone")}
                       style=${this.empForm.phone?.errorMessage
                         ? "border: solid 3px red;"
                         : ""}
@@ -440,9 +384,8 @@ export class MyElement extends LitElement {
             </div>
 
             <div class="form-control">
-              <label>Designation*</label>
-              <select
-                id="designation"
+              <sl-select
+              id="designation"
                 required
                 Select
                 your
@@ -450,10 +393,9 @@ export class MyElement extends LitElement {
                 @input=${(e) => this.decider(e, "designation")}
                 style=${this.empForm.designation?.errorMessage
                   ? "border: solid 4px red;"
-                  : ""}
-              >
-                ${repeat(designation, (e) => html` <option>${e}</option>`)}
-              </select>
+                  : ""}>
+                ${repeat(designation, (e) => html` <sl-option value=${e}>${e}</sl-option>`)}
+              </sl-select>
               <p id="display">${this.empForm.designation.errorMessage}</p>
             </div>
 
@@ -479,11 +421,12 @@ export class MyElement extends LitElement {
                 placeholder="Enter your Address"
                 required
                 autocomplete="off"
-                @input=${(e) => this.decider(e, "addressLine1")}
+                @input=${(e) => this.decider(e, "address")}
                 style=${this.empForm.address?.errorMessage
                   ? "border: solid 3px red;"
                   : ""}
               />
+              <p id="display">${this.empForm.address.errorMessage}</p>
             </div>
             <div class="form-control">
               <label>Address line 2</label>
@@ -491,12 +434,8 @@ export class MyElement extends LitElement {
                 id="adline2"
                 placeholder="optional"
                 autocomplete="off"
-                @input=${(e) => this.decider(e, "addressLine2")}
-                style=${this.empForm.address?.errorMessage
-                  ? "border: solid 3px red;"
-                  : ""}
+                @input=${(e) => this.decider(e, "address1")}
               />
-              <p id="display">${this.empForm.address.errorMessage}</p>
             </div>
 
             <div class="form-control">
@@ -566,7 +505,7 @@ export class MyElement extends LitElement {
                 required
                 placeholder="Enter your pincode"
                 autocomplete="off"
-                @input=${(e) => this.decider(e, "zipCode")}
+                @input=${(e) => this.decider(e, "zipcode")}
                 style=${this.empForm.zipcode?.errorMessage
                   ? "border: solid 3px red;"
                   : ""}
@@ -578,6 +517,7 @@ export class MyElement extends LitElement {
               ? html`<button class="btn" type="submit">Submit</button>`
               : html`<button class="btn" type="submit">Update</button>`}
             <slot></slot>
+            <sl-button @click=${this.test}>Button</sl-button>
           </form>
         </div>
       </div>
@@ -617,7 +557,7 @@ export class MyElement extends LitElement {
 
   updateData(e) {
     e.preventDefault();
-    
+
     const editvalidationFields = [
       "name",
       "empCode",
@@ -626,105 +566,51 @@ export class MyElement extends LitElement {
       "department",
       "address",
       "landmark",
-      "zipcode"
+      "zipcode",
     ];
-    
-    const isValid = editvalidationFields.every(field =>
-      this.empForm[field].errorMessage === ""
+
+    const isValid = editvalidationFields.every(
+      (field) => this.empForm[field].errorMessage === ""
     );
-    
+
     if (isValid) {
       localStorage.setItem("myFormData", JSON.stringify(this.savedData));
       window.location.reload();
     }
   }
 
-
   validateForm(e, type) {
     switch (type) {
-      case "empName":
+      case "name":
         {
           //value will be restored in the begining when entered to json
-          this.empForm = {
-            ...this.empForm,
-            name: {
-              value: `${e.target.value} `,
-              isValidName: false,
-            },
-          };
 
-          if (this.empForm.name.value.length > 7) {
-            console.log(this.empForm.name);
-            this.empForm = {
-              ...this.empForm,
-              name: {
-                value: `${e.target.value} `,
-                isValidName: false,
-                errorMessage: "Username can't exceed 7 characters",
-              },
-            };
+          if (e.target.value.length > 7) {
+            this.error_false("name", "Username can't exceed 7 characters");
           } else {
-            this.empForm = {
-              ...this.empForm,
-              name: {
-                value: `${e.target.value} `,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
-            console.log(this.empForm.name);
+            this.error_true("name", "");
           }
         }
         break;
 
       case "empCode":
         {
-          this.empForm = {
-            ...this.empForm,
-            empCode: {
-              value: `${e.target.value} `,
-              isValidName: false,
-              errorMessage: "",
-            },
-          };
-
-          if (this.empForm.empCode.value.length > 8) {
-            this.empForm = {
-              ...this.empForm,
-              empCode: {
-                value: `${e.target.value} `,
-                isValidName: false,
-                errorMessage: "Maximum length exceeded",
-              },
-            };
+          if (e.target.value.length > 8) {
+            this.error_false("empCode", "Length Cant exceed 8 characters");
           } else if (
-            (this.empForm.empCode.value.length == 8 &&
-              this.empForm.empCode.value.match(/[0-9]{6}[A-Z]/)) ||
-            this.empForm.empCode.value.match(/[0-9]{5}[A-Z][0-9]/) ||
-            this.empForm.empCode.value.match(/[0-9]{4}[A-Z][0-9]{2}/) ||
-            this.empForm.empCode.value.match(/[0-9]{3}[A-Z][0-9]{3}/) ||
-            this.empForm.empCode.value.match(/[0-9]{2}[A-Z][0-9]{4}/) ||
-            this.empForm.empCode.value.match(/[0-9][A-Z][0-9]{5}/) ||
-            this.empForm.empCode.value.match(/[A-Z][0-9]{6}/)
+            (e.target.value.length == 8 &&
+              e.target.value.match(/[0-9]{6}[A-Z]/)) ||
+            e.target.value.match(/[0-9]{5}[A-Z][0-9]/) ||
+            e.target.value.match(/[0-9]{4}[A-Z][0-9]{2}/) ||
+            e.target.value.match(/[0-9]{3}[A-Z][0-9]{3}/) ||
+            e.target.value.match(/[0-9]{2}[A-Z][0-9]{4}/) ||
+            e.target.value.match(/[0-9][A-Z][0-9]{5}/) ||
+            e.target.value.match(/[A-Z][0-9]{6}/)
           ) {
-            // console.log(this.empForm.email);
-            this.empForm = {
-              ...this.empForm,
-              empCode: {
-                value: `${e.target.value}`,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
+            this.error_true("empCode", "");
           } else {
-            this.empForm = {
-              ...this.empForm,
-              empCode: {
-                value: `${e.target.value} `,
-                isValidName: false,
-                errorMessage: "Enter Valid Emp Code",
-              },
-            };
+            this.error_false("empCode", "Enter Valid Emp Code");
+
             // console.log(this.empForm.empCode);
           }
         }
@@ -732,16 +618,6 @@ export class MyElement extends LitElement {
 
       case "email":
         {
-          this.empForm = {
-            ...this.empForm,
-            email: {
-              value: `${e.target.value} `,
-              isValidName: false,
-              errorMessage: "",
-            },
-          };
-          // console.log(this.empForm.email);
-
           const personalmailformat = /(@gmail.com)/;
           const officialmailformat = /(@annalect.com)/;
           let changevalue = this.EmailChecked;
@@ -749,380 +625,135 @@ export class MyElement extends LitElement {
 
           if (
             changevalue === "official" &&
-            this.empForm.email.value.match(officialmailformat)
+            e.target.value.match(officialmailformat)
           ) {
-            // console.log(this.empForm.email);
-            this.empForm = {
-              ...this.empForm,
-              email: {
-                value: `${e.target.value} (official)`,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
+            this.error_true("email", "");
           } else if (
             changevalue === "personal" &&
-            this.empForm.email.value.match(personalmailformat)
+            e.target.value.match(personalmailformat)
           ) {
-            this.empForm = {
-              ...this.empForm,
-              email: {
-                value: `${e.target.value} (Personal)`,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
+            this.error_true("email", "");
             // console.log(this.empForm.email);
           } else {
-            this.empForm = {
-              ...this.empForm,
-              email: {
-                value: `${e.target.value} `,
-                isValidName: false,
-                errorMessage: "Invalid",
-              },
-            };
+            this.error_false("email", "Invalid");
             // console.log(this.empForm.email);
           }
         }
         break;
 
       case "phone":
-         {
+        {
           //value will be restored in the begining when entered to json
           let changevaluep = this.PhoneChecked;
           // console.log(changevaluep);
-          this.empForm = {
-            ...this.empForm,
-            phone: {
-              value: `${e.target.value} `,
-              isValidName: false,
-            },
-          };
 
           if (
             changevaluep === "primary" &&
-            this.empForm.phone.value.length == 11 &&
-            this.empForm.phone.value.length <= 12
+            e.target.value.length == 10 &&
+            e.target.value.length <= 11
           ) {
-            // console.log(this.empForm.phone);
-            this.empForm = {
-              ...this.empForm,
-              phone: {
-                value: `${e.target.value} (Primary)`,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
+            this.error_true("phone", "");
           } else if (
             changevaluep === "secondary" &&
-            this.empForm.phone.value.length == 11 &&
-            this.empForm.phone.value.length <= 12
+            e.target.value.length == 10 &&
+            e.target.value.length <= 11
           ) {
-            // console.log(this.empForm.phone);
-            this.empForm = {
-              ...this.empForm,
-              phone: {
-                value: `${e.target.value} (Secondary)`,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
+            this.error_true("phone", "");
           } else if (
             changevaluep === "emergency" &&
-            this.empForm.phone.value.length == 11 &&
-            this.empForm.phone.value.length <= 12
+            e.target.value.length == 10 &&
+            e.target.value.length <= 11
           ) {
-            // console.log(this.empForm.phone);
-            this.empForm = {
-              ...this.empForm,
-              phone: {
-                value: `${e.target.value} (Emergency)`,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
+            this.error_true("phone", "");
           } else {
-            this.empForm = {
-              ...this.empForm,
-              phone: {
-                value: `${e.target.value} `,
-                isValidName: false,
-                errorMessage: "Invalid",
-              },
-            };
+            this.error_false("phone", "Invalid");
             // console.log(this.empForm.phone);
           }
         }
         break;
 
       case "designation":
-         {
-          this.empForm = {
-            ...this.empForm,
-            designation: {
-              value: `${e.target.value} `,
-            },
-          };
+        {
           const designationFormat = /--Enter Your Designation--/;
-          if (this.empForm.designation.value.match(designationFormat)) {
-            this.empForm = {
-              ...this.empForm,
-              designation: {
-                value: "",
-                isValidName: false,
-                errorMessage: "Enter valid Designation name",
-              },
-            };
+          if (e.target.value.match(designationFormat)) {
+            this.error_false("designation", "Enter valid designation Name");
           } else {
-            this.empForm = {
-              ...this.empForm,
-              designation: {
-                value: `${e.target.value}`,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
+            this.error_true("desgination", "");
           }
         }
         break;
 
       case "department":
-         {
-          this.empForm = {
-            ...this.empForm,
-            department: {
-              value: `${e.target.value} `,
-            },
-          };
-          const departmentFormat = /--Enter Your Department--/;
-          if (this.empForm.department.value.match(departmentFormat)) {
-            this.empForm = {
-              ...this.empForm,
-              department: {
-                value: "",
-                isValidName: false,
-                errorMessage: "Enter valid department name",
-              },
-            };
-          } else {
-            this.empForm = {
-              ...this.empForm,
-              department: {
-                value: `${e.target.value}`,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
-          }
-        }
-        break;
-
-      case "addressLine1":
         {
-          {
-            this.empForm = {
-              ...this.empForm,
-              address: {
-                value: `${e.target.value}`,
-              },
-            };
-          }
-          if (
-            this.empForm.address.value === "" ||
-            this.empForm.address.value.length > 80
-          ) {
-            // console.log(this.empForm.address);
-            this.empForm = {
-              ...this.empForm,
-              address: {
-                value: `${e.target.value} `,
-                isValidName: false,
-                errorMessage: "Please enter a valid Address",
-              },
-            };
+          const departmentFormat = /--Enter Your Department--/;
+          if (e.target.value.match(departmentFormat)) {
+            this.error_false("designation", "Enter valid department Name");
           } else {
-            this.empForm = {
-              ...this.empForm,
-              address: {
-                value: `${e.target.value} `,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
-            // console.log(this.empForm.address);
+            this.error_true("department", "");
           }
-        }
-        break;
-      case "addressLine2":
-       {
-          this.empForm = {
-            ...this.empForm,
-            address1: {
-              value: `${e.target.value} (optional)`,
-            },
-          };
         }
         break;
 
+      case "address":
+        {
+          if (e.target.value === "" || e.target.value.length > 80) {
+            // console.log(this.empForm.address);
+            this.error_false("address", "Enter valid Address");
+          } else {
+            this.error_true("address", "");
+            // console.log(this.empForm.address);
+          }
+        }
+        break;
       case "landmark":
         {
-          this.empForm = {
-            ...this.empForm,
-            landmark: {
-              value: `${e.target.value}`,
-            },
-          };
-        }
-        if (
-          this.empForm.landmark.value === "" ||
-          this.empForm.landmark.value.length > 50
-        ) {
-          // console.log(this.empForm.landmark);
-          this.empForm = {
-            ...this.empForm,
-            landmark: {
-              value: `${e.target.value} `,
-              isValidName: false,
-              errorMessage: "Please enter a valid Landmark",
-            },
-          };
-        } else {
-          this.empForm = {
-            ...this.empForm,
-            landmark: {
-              value: `${e.target.value} `,
-              isValidName: true,
-              errorMessage: "",
-            },
-          };
-          // console.log(this.empForm.landmark);
+          if (e.target.value === "" || e.target.value.length > 50) {
+            this.error_false("landmark", "Invalid");
+          } else {
+            this.error_true("landmark", "");
+          }
         }
         break;
 
       case "country":
-         {
-          this.empForm = {
-            ...this.empForm,
-            country: {
-              value: `${e.target.value} `,
-            },
-          };
+        {
           const countryFormat = /--Enter Your Country--/;
-          if (this.empForm.country.value.match(countryFormat)) {
-            this.empForm = {
-              ...this.empForm,
-              country: {
-                value: "",
-                isValidName: false,
-                errorMessage: "Invalid country name",
-              },
-            };
+          if (e.target.value.match(countryFormat)) {
+            this.error_false("country", "Invalid country Name");
           } else {
-            this.empForm = {
-              ...this.empForm,
-              country: {
-                value: `${e.target.value}`,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
+            this.error_true("country", "");
           }
         }
         break;
 
       case "state":
         {
-          this.empForm = {
-            ...this.empForm,
-            state: {
-              value: `${e.target.value} `,
-            },
-          };
           const stateFormat = /--Enter Your State--/;
-          if (this.empForm.state.value.match(stateFormat)) {
-            this.empForm = {
-              ...this.empForm,
-              state: {
-                value: "",
-                isValidName: false,
-                errorMessage: "Enter valid State name",
-              },
-            };
+          if (e.target.value.match(stateFormat)) {
+            this.error_false("state", "Invalid state Name");
           } else {
-            this.empForm = {
-              ...this.empForm,
-              state: {
-                value: `${e.target.value}`,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
+            this.error_true("state", "");
           }
         }
         break;
 
       case "city":
         {
-          this.empForm = {
-            ...this.empForm,
-            city: {
-              value: `${e.target.value} `,
-            },
-          };
           const cityFormat = /--Enter Your City--/;
-          if (this.empForm.city.value.match(cityFormat)) {
-            this.empForm = {
-              ...this.empForm,
-              city: {
-                value: "",
-                isValidName: false,
-                errorMessage: "Enter valid City name",
-              },
-            };
+          if (e.target.value.match(cityFormat)) {
+            this.error_false("city", "Enter valid city name");
           } else {
-            this.empForm = {
-              ...this.empForm,
-              city: {
-                value: `${e.target.value}`,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
+            this.error_true("city", "");
           }
         }
         break;
 
-      case "zipCode":
-         {
-          this.empForm = {
-            ...this.empForm,
-            zipcode: {
-              value: `${e.target.value}`,
-            },
-          };
-          if (
-            this.empForm.zipcode.value.length == 6 &&
-            this.empForm.zipcode.value.length <= 8
-          ) {
-            // console.log(this.empForm.zipcode);
-            this.empForm = {
-              ...this.empForm,
-              zipcode: {
-                value: `${e.target.value} `,
-                isValidName: true,
-                errorMessage: "",
-              },
-            };
+      case "zipcode":
+        {
+          if (e.target.value.length == 6 && e.target.value.length <= 8) {
+            this.error_true("zipcode", "");
           } else {
-            this.empForm = {
-              ...this.empForm,
-              zipcode: {
-                value: `${e.target.value} `,
-                isValidName: false,
-                errorMessage: "please enter a valid Zip Code",
-              },
-            };
+            this.error_false("zipcode", "PLease neter a valid zipcode");
           }
         }
         break;
@@ -1142,19 +773,19 @@ export class MyElement extends LitElement {
       this.empForm.zipcode.isValidName === true
     ) {
       let empdata = {
-        name: this.empForm.name.value,
-        empCode: this.empForm.empCode.value,
-        email: this.empForm.email.value,
-        phone: this.empForm.phone.value,
-        designation: this.empForm.designation.value,
-        department: this.empForm.department.value,
-        address: this.empForm.address.value,
-        address1: this.empForm.address1.value,
-        landmark: this.empForm.landmark.value,
-        country: this.empForm.country.value,
-        state: this.empForm.state.value,
-        city: this.empForm.city.value,
-        zipcode: this.empForm.zipcode.value,
+        name: this.storedempdata.name,
+        empCode: this.storedempdata.empCode,
+        email: this.storedempdata.email,
+        phone: this.storedempdata.phone,
+        designation: this.storedempdata.designation,
+        department: this.storedempdata.department,
+        address: this.storedempdata.address,
+        address1: this.storedempdata.address1,
+        landmark: this.storedempdata.landmark,
+        country: this.storedempdata.country,
+        state: this.storedempdata.state,
+        city: this.storedempdata.city,
+        zipcode: this.storedempdata.zipcode,
       };
 
       const Data = JSON.parse(localStorage.getItem("myFormData")) || [];
