@@ -52,8 +52,7 @@ export class Userdata extends LitElement {
                 <p><strong>Phone-</strong>${item.phone}</p>
                 <p><strong>Designation-</strong>${item.designation}</p>
                 <p><strong>Department-</strong>${item.department}</p>
-                <p><strong>Address-</strong>${item.address}</p>
-                <p>Address-${item.address1}</p>
+                <p><strong>Address-</strong>${item.address},${item.address1}</p>
                 <p><strong>Landmark-</strong>${item.landmark}</p>
                 <p><strong>Country-</strong>${item.country}</p>
                 <p><strong>State-</strong>${item.state}</p>

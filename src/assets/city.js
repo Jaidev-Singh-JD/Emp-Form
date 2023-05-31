@@ -1,3 +1,3 @@
 export const city =[
-    "--Enter Your City--","New Delhi","Beijing","Colombo","Dhaka"
+    "New Delhi","Beijing","Colombo","Dhaka"
 ]
