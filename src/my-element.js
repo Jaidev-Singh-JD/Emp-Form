@@ -8,8 +8,9 @@ import { country } from "./assets/country";
 import "@shoelace-style/shoelace/dist/themes/light.css";
 import "@shoelace-style/shoelace/dist/components/button/button.js";
 import "@shoelace-style/shoelace/dist/components/input/input.js";
-import '@shoelace-style/shoelace/dist/components/select/select.js';
-import '@shoelace-style/shoelace/dist/components/option/option.js';
+import "@shoelace-style/shoelace/dist/components/select/select.js";
+import "@shoelace-style/shoelace/dist/components/option/option.js";
+import { serialize } from "@shoelace-style/shoelace/dist/utilities/form.js";
 
 export class MyElement extends LitElement {
   static get properties() {
@@ -21,7 +22,6 @@ export class MyElement extends LitElement {
       isEditing: { type: Boolean },
       editData: { type: Object },
       savedData: { type: Array },
-      storedempdata: { type: Object },
     };
   }
 
@@ -45,7 +45,6 @@ export class MyElement extends LitElement {
     };
     this.EmpFormData = [];
     this.isEditing = false;
-    this.storedempdata = {};
   }
 
   static get styles() {
@@ -228,8 +227,8 @@ export class MyElement extends LitElement {
       this.editData[type] = e.target.value;
       this.validateForm(e, type);
     } else {
-      this.storedempdata[type] = e.target.value;
       this.validateForm(e, type);
+      // console.log(e.target.value);
     }
   }
 
@@ -277,6 +276,7 @@ export class MyElement extends LitElement {
                 id="name-input"
                 required
                 autocomplete="off"
+                name="name"
                 placeholder="Enter your Fullname "
                 @input=${(e) => this.decider(e, "name")}
                 style=${this.empForm.name?.errorMessage
@@ -294,6 +294,7 @@ export class MyElement extends LitElement {
                 id="empcode-input"
                 required
                 placeholder="Enter your Employee code"
+                name="empCode"
                 @input=${(e) => this.decider(e, "empCode")}
                 style=${this.empForm.empCode?.errorMessage
                   ? "border: solid 3px red;"
@@ -385,16 +386,19 @@ export class MyElement extends LitElement {
 
             <div class="form-control">
               <sl-select
-              id="designation"
+                id="designation"
                 required
-                Select
-                your
-                option
-                @input=${(e) => this.decider(e, "designation")}
+                placeholder="Enter your designation"
+                name="designation"
+                @click=${(e) => this.decider(e, "designation")}
                 style=${this.empForm.designation?.errorMessage
                   ? "border: solid 4px red;"
-                  : ""}>
-                ${repeat(designation, (e) => html` <sl-option value=${e}>${e}</sl-option>`)}
+                  : ""}
+              >
+                ${repeat(
+                  designation,
+                  (e) => html` <sl-option value=${e}>${e}</sl-option>`
+                )}
               </sl-select>
               <p id="display">${this.empForm.designation.errorMessage}</p>
             </div>
@@ -404,6 +408,7 @@ export class MyElement extends LitElement {
               <select
                 id="department"
                 required
+                name="department"
                 @input=${(e) => this.decider(e, "department")}
                 style=${this.empForm.department?.errorMessage
                   ? "border: solid 4px red;"
@@ -420,6 +425,7 @@ export class MyElement extends LitElement {
                 id="adline1"
                 placeholder="Enter your Address"
                 required
+                name="address"
                 autocomplete="off"
                 @input=${(e) => this.decider(e, "address")}
                 style=${this.empForm.address?.errorMessage
@@ -434,6 +440,7 @@ export class MyElement extends LitElement {
                 id="adline2"
                 placeholder="optional"
                 autocomplete="off"
+                name="address1"
                 @input=${(e) => this.decider(e, "address1")}
               />
             </div>
@@ -444,6 +451,7 @@ export class MyElement extends LitElement {
                 id="landmark"
                 required
                 type="text"
+                name="landmark"
                 placeholder="Enter your Landmark"
                 @input=${(e) => this.decider(e, "landmark")}
                 style=${this.empForm.landmark?.errorMessage
@@ -458,6 +466,7 @@ export class MyElement extends LitElement {
               <select
                 id="country"
                 required
+                name="country"
                 @input=${(e) => this.decider(e, "country")}
                 style=${this.empForm.country?.errorMessage
                   ? "border: solid 3px red;"
@@ -472,6 +481,7 @@ export class MyElement extends LitElement {
               <select
                 id="state"
                 required
+                name="state"
                 @input=${(e) => this.decider(e, "state")}
                 style=${this.empForm.state?.errorMessage
                   ? "border: solid 3px red;"
@@ -487,6 +497,7 @@ export class MyElement extends LitElement {
               <select
                 id="city"
                 required
+                name="city"
                 @input=${(e) => this.decider(e, "city")}
                 style=${this.empForm.city?.errorMessage
                   ? "border: solid 3px red;"
@@ -505,6 +516,7 @@ export class MyElement extends LitElement {
                 required
                 placeholder="Enter your pincode"
                 autocomplete="off"
+                name= "zipcode"
                 @input=${(e) => this.decider(e, "zipcode")}
                 style=${this.empForm.zipcode?.errorMessage
                   ? "border: solid 3px red;"
@@ -772,26 +784,15 @@ export class MyElement extends LitElement {
       this.empForm.landmark.isValidName === true &&
       this.empForm.zipcode.isValidName === true
     ) {
-      let empdata = {
-        name: this.storedempdata.name,
-        empCode: this.storedempdata.empCode,
-        email: this.storedempdata.email,
-        phone: this.storedempdata.phone,
-        designation: this.storedempdata.designation,
-        department: this.storedempdata.department,
-        address: this.storedempdata.address,
-        address1: this.storedempdata.address1,
-        landmark: this.storedempdata.landmark,
-        country: this.storedempdata.country,
-        state: this.storedempdata.state,
-        city: this.storedempdata.city,
-        zipcode: this.storedempdata.zipcode,
-      };
-
-      const Data = JSON.parse(localStorage.getItem("myFormData")) || [];
-      Data.push(empdata);
-      localStorage.setItem("myFormData", JSON.stringify(Data));
       const form = this.renderRoot.querySelector("form");
+      const data = serialize(form);
+      console.log(data);
+
+      // All form control data is available in a plain object
+      const Data = JSON.parse(localStorage.getItem("myFormData")) || [];
+      Data.push(data);
+      localStorage.setItem("myFormData", JSON.stringify(Data));
+      // const form = this.renderRoot.querySelector("form");
       this.empForm.address1.value = "";
       form.reset();
       alert("Form submitted Successfully into local storage");
