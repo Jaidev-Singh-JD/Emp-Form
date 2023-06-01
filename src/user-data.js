@@ -309,7 +309,7 @@ export class Userdata extends LitElement {
         padding: 0px;
       }
       dialog::-webkit-scrollbar {
-        width: 3px;
+        width: 0.1px;
       }
 
       dialog::-webkit-scrollbar-track {
@@ -317,7 +317,7 @@ export class Userdata extends LitElement {
       }
 
       dialog::-webkit-scrollbar-thumb {
-        background-color: #000000;
+        background-color: #ffffff;
         outline: 1px solid slategrey;
       }
       .btn-cancel {

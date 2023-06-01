@@ -11,6 +11,7 @@ import "@shoelace-style/shoelace/dist/components/input/input.js";
 import "@shoelace-style/shoelace/dist/components/select/select.js";
 import "@shoelace-style/shoelace/dist/components/option/option.js";
 import { serialize } from "@shoelace-style/shoelace/dist/utilities/form.js";
+import '@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js';
 
 export class MyElement extends LitElement {
   static get properties() {
@@ -22,6 +23,7 @@ export class MyElement extends LitElement {
       isEditing: { type: Boolean },
       editData: { type: Object },
       savedData: { type: Array },
+      progress:{ type:Number},
     };
   }
 
@@ -45,6 +47,7 @@ export class MyElement extends LitElement {
     };
     this.EmpFormData = [];
     this.isEditing = false;
+    this.progress=0;
   }
 
   static get styles() {
@@ -89,12 +92,26 @@ export class MyElement extends LitElement {
       background-color: #fff;
      border-radius:10px;
      -webkit-border-radius:10px;
-     overflow:hidden;
-     width:50%;
+     overflow-x:hidden;
+     width:60%;
+     height:575px;
      margin:5px auto;
      box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12. ;
      background:#e9f6f4;
     }
+    div::-webkit-scrollbar {
+        width: 1px;
+      }
+
+      div::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        }
+
+      div::-webkit-scrollbar-thumb {
+        background-color: #000000;
+        outline: 1px solid slategrey;
+        border-radius:2px;
+      }
     .form{
       padding: 40px;
     }
@@ -272,6 +289,9 @@ export class MyElement extends LitElement {
             class="form"
             @submit=${this.isEditing ? this.updateData : this.submit}
           >
+          <div class="form-control">
+          <sl-progress-bar value=${this.progress} ></sl-progress-bar>
+          </div>
             <div class="form-control">
               <label for="name-input"> UserName*</label>
               <sl-input
@@ -590,11 +610,15 @@ export class MyElement extends LitElement {
     switch (type) {
       case "name":
         {
+          this.progress=7.6;
           //value will be restored in the begining when entered to json
 
           if (e.target.value.length > 7) {
             this.error_false("name", "Username can't exceed 7 characters");
-          } else {
+          } else if (e.target.value.length ==""){ 
+            this.error_false("name", "Can'be blank");
+            this.progress=this.progress-7.6;
+          }else if(e.target.value.length <=7){
             this.error_true("name", "");
           }
         }
@@ -615,14 +639,17 @@ export class MyElement extends LitElement {
             e.target.value.match(/[A-Z][0-9]{6}/)
           ) {
             this.error_true("empCode", "");
+          } else if(e.target.value.length >0 && e.target.value.length<8) {
+            this.error_false("empCode", "Enter a valid format");
           } else if (e.target.value.length == "") {
-            this.error_false("empCode", "Can't be empty");
+            this.error_false("empCode", "Can't be blank");
           }
         }
         break;
 
       case "email":
         {
+          this.progress=22.8;
           const personalmailformat = /(@gmail.com)/;
           const officialmailformat = /(@annalect.com)/;
           let changevalue = this.EmailChecked;
@@ -639,12 +666,16 @@ export class MyElement extends LitElement {
           ) {
             this.error_true("email", "");
             // console.log(this.empForm.email);
-          } else if (changevalue === "personal" ||changevalue === "official"){
-            this.error_false("email", "Please Enter your Email");
+          } 
+          else if(changevalue === "official" && !e.target.value.match(officialmailformat)){
+          this.error_false("email", "Match official email format");
           }
-          else {
-            this.error_false("email", "Invalid");
-            // console.log(this.empForm.email);
+          else if(changevalue === "personal" && !e.target.value.match(personalmailformat)){
+          this.error_false("email", "Match personal email format");
+          }
+          else if(e.target.value == ""){
+          this.error_false("email", "Can't be blank");
+          this.progress=this.progress-7.6;
           }
         }
         break;
@@ -680,88 +711,41 @@ export class MyElement extends LitElement {
         }
         break;
 
-      case "designation":
-        {
-          const designationFormat = /--Enter Your Designation--/;
-          if (e.target.value.match(designationFormat)) {
-            this.error_false("designation", "Enter valid designation Name");
-          } else {
-            this.error_true("desgination", "");
-          }
-        }
-        break;
-
-      case "department":
-        {
-          const departmentFormat = /--Enter Your Department--/;
-          if (e.target.value.match(departmentFormat)) {
-            this.error_false("designation", "Enter valid department Name");
-          } else {
-            this.error_true("department", "");
-          }
-        }
-        break;
-
       case "address":
         {
-          if (e.target.value === "" || e.target.value.length > 80) {
-            // console.log(this.empForm.address);
+          this.progress=53.2;
+          if (e.target.value.length > 80) {
             this.error_false("address", "Enter valid Address");
-          } else {
+            this.progress=this.progress-7.6;
+          } else if(e.target.value === ""){
+            this.error_false("address", "Can't be blank");
+          }
+          else {
             this.error_true("address", "");
-            // console.log(this.empForm.address);
           }
         }
         break;
       case "landmark":
         {
-          if (e.target.value.length > 50) {
-            this.error_false("landmark", "Invalid");
+          this.progress=60.8;
+          if (e.target.value.length > 5) {
+            this.error_false("landmark", "Length can't exceed 5");
+            this.progress=this.progress-7.6;
           } else {
             this.error_true("landmark", "");
           }
         }
         break;
-
-      case "country":
-        {
-          const countryFormat = /--Enter Your Country--/;
-          if (e.target.value.match(countryFormat)) {
-            this.error_false("country", "Invalid country Name");
-          } else {
-            this.error_true("country", "");
-          }
-        }
-        break;
-
-      case "state":
-        {
-          const stateFormat = /--Enter Your State--/;
-          if (e.target.value.match(stateFormat)) {
-            this.error_false("state", "Invalid state Name");
-          } else {
-            this.error_true("state", "");
-          }
-        }
-        break;
-
-      case "city":
-        {
-          const cityFormat = /--Enter Your City--/;
-          if (e.target.value.match(cityFormat)) {
-            this.error_false("city", "Enter valid city name");
-          } else {
-            this.error_true("city", "");
-          }
-        }
-        break;
-
       case "zipcode":
         {
-          if (e.target.value.length == 6 && e.target.value.length <= 7) {
+          this.progress=90;
+          if (e.target.value.length ==6) {
             this.error_true("zipcode", "");
           } else if(e.target.value.length >=7){
             this.error_false("zipcode", "Length must be 6");
+          }else if(e.target.value.length == ""){
+            this.error_false("zipcode", "can't be blank");
+            this.progress=this.progress-7.6;
           }else {
             this.error_false("zipcode", "Invalid zipcode");
           }
