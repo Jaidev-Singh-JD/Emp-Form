@@ -1,3 +1,3 @@
 export const city =[
-    "New Delhi","Beijing","Colombo","Dhaka"
+    "Delhi","Beijing","Colombo","Dhaka"
 ]

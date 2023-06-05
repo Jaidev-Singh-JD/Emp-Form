@@ -1,3 +1,3 @@
 export const department =[
-    "Media Science","Information Technology","Marketing and Science","Human Resources"
+    "Media_Science","Information_Technology","Marketing_and_Science","Human_Resources"
 ]

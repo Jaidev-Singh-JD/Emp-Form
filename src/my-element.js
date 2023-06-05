@@ -11,7 +11,8 @@ import "@shoelace-style/shoelace/dist/components/input/input.js";
 import "@shoelace-style/shoelace/dist/components/select/select.js";
 import "@shoelace-style/shoelace/dist/components/option/option.js";
 import { serialize } from "@shoelace-style/shoelace/dist/utilities/form.js";
-import '@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js';
+import '@shoelace-style/shoelace/dist/components/progress-ring/progress-ring.js';
+import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js";
 
 export class MyElement extends LitElement {
   static get properties() {
@@ -24,6 +25,11 @@ export class MyElement extends LitElement {
       editData: { type: Object },
       savedData: { type: Array },
       progress:{ type:Number},
+      progress1:{ type:Number},
+      progress2:{ type:Number},
+      progress3:{ type:Number},
+      progress4:{ type:Number},
+      progress5:{ type:Number},
     };
   }
 
@@ -48,12 +54,33 @@ export class MyElement extends LitElement {
     this.EmpFormData = [];
     this.isEditing = false;
     this.progress=0;
+    this.progress1=0;
+    this.progress2=0;
+    this.progress3=0;
+    this.progress4=0;
+    this.progress5=0;
   }
 
   static get styles() {
     return css`
     sl-input,sl-select{
       --sl-input-focus-ring-color:hsl(74, 73%, 51%);
+    }
+    .progress sl-progress-ring{
+      color:#000000;
+      font-size:30px;
+      position:absolute;
+      right:50px;
+      top:120px;
+      background-color:#ffffff;
+      border-radius:50%;
+    }
+    .progress label{
+      position:absolute;
+      font-size:30px;
+      right:20px;
+      top:70px;
+      color:#000000;
     }
     #bod{
       display:flex;
@@ -248,7 +275,7 @@ export class MyElement extends LitElement {
       this.validateForm(e, type);
     } else {
       this.validateForm(e, type);
-      // console.log(e.target.value);
+      console.log(e.target.value);
     }
   }
 
@@ -270,14 +297,104 @@ export class MyElement extends LitElement {
       },
     };
   }
-
-  test() {
-    console.log("here");
+  progressOne(){
+    if(this.empForm.name.isValidName===true){
+    this.progress1=20;
+    this.finalprogress() 
+    console.log("in name") 
+    }
+    else{
+      this.progress1=0;
+      this.finalprogress()
+    }
+  }
+  progressTwo(){
+    if(this.empForm.empCode.isValidName===true){
+    this.progress2=20; 
+    this.finalprogress() 
+    }
+    else{
+      this.progress2=0;
+      this.finalprogress()
+    }
+  }
+  progressThree(){
+    if(this.empForm.address.isValidName===true){
+    this.progress3=20; 
+    this.finalprogress() 
+    }
+    else{
+      this.progress3=0;
+      this.finalprogress()
+    }
+  }
+  progressFour(){
+    if(this.empForm.landmark.isValidName===true){
+    this.progress4=20; 
+    this.finalprogress() 
+    }
+    else{
+      this.progress4=0;
+      this.finalprogress()
+    }
+  }
+  progressFive(){
+    if(this.empForm.zipcode.isValidName===true){
+    this.progress5=20; 
+    this.finalprogress() 
+    }
+    else{
+      this.progress5=0;
+      this.finalprogress()
+    }
+  }
+  finalprogress(){
+    this.progress=Number(this.progress1)+Number(this.progress2)+Number(this.progress3)+Number(this.progress4)+Number(this.progress5);
+    console.log(this.progress)
   }
 
+
+//   progresse() {
+//     if(
+//       this.empForm.name.isValidName === true &&
+//       this.empForm.empCode.isValidName === true &&
+//       this.empForm.email.isValidName === true &&
+//       this.empForm.phone.isValidName === true &&
+//       this.empForm.address.isValidName === true &&
+//       this.empForm.landmark.isValidName === true &&
+//       this.empForm.zipcode.isValidName === true
+//     )
+//       {
+//         this.progress=100;
+//       }
+//     else if (this.empForm.name.isValidName === true &&
+//       this.empForm.empCode.isValidName === true &&
+//       this.empForm.email.isValidName === true &&
+//       this.empForm.phone.isValidName === true )
+//       {
+//       this.progress=50
+//     }
+//     else if (this.empForm.name.isValidName === true &&
+//       this.empForm.empCode.isValidName === true &&
+//       this.empForm.email.isValidName === true &&
+//       this.empForm.phone.isValidName === true &&
+//       this.empForm.address.isValidName === true  )
+//       {
+//       this.progress=80
+//     }
+//       else{
+//         this.progress=this.progress;
+//       }
+// }
   render() {
     return html`
       <div id="bod">
+        ${this.isEditing?"":html`
+        <div class="progress">
+          <label for=progress>Progress meter</label>
+          <sl-progress-ring value=${this.progress} class="progress-ring-values" >${this.progress}</sl-progress-ring>
+        </div>`}
+        
         <div class="container">
           <div class="header">
             <h2>EMPLOYEE FORM</h2>
@@ -289,9 +406,6 @@ export class MyElement extends LitElement {
             class="form"
             @submit=${this.isEditing ? this.updateData : this.submit}
           >
-          <div class="form-control">
-          <sl-progress-bar value=${this.progress} ></sl-progress-bar>
-          </div>
             <div class="form-control">
               <label for="name-input"> UserName*</label>
               <sl-input
@@ -313,26 +427,7 @@ export class MyElement extends LitElement {
               <p id="display">${this.empForm.name.errorMessage}</p>
             </div>
 
-            <div class="form-control">
-              <label for="empcode-input">Employee Code*</label>
-              <sl-input
-                id="empcode-input"
-                required
-                placeholder="Enter your Employee code"
-                name="empCode"
-                type="email"
-                @input=${(e) => this.decider(e, "empCode")}
-                style=${
-                  this.empForm.empCode?.errorMessage
-                    ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
-                    : ""
-                }
-                   placeholder="Clearable"
-                clearable
-              /></sl-input>
-              <p id="display">${this.empForm.empCode.errorMessage}</p>
-            </div>
-
+            
             <div class="form-control">
               <label for="email-input">Email*</label>
               <div class="radio">
@@ -374,7 +469,7 @@ export class MyElement extends LitElement {
                   value="primary"
                   name="phone"
                   @change=${this.handleRadio1Change}
-                />
+                  />
                 <label for="secondary">Secondary</label><br />
                 <input
                   type="radio"
@@ -403,7 +498,7 @@ export class MyElement extends LitElement {
                           ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
                           : ""}
                       ><sl-input>
-                      <p id="display">${this.empForm.phone.errorMessage}</p>`
+                        <p id="display">${this.empForm.phone.errorMessage}</p>`
                   : html`<sl-input
                         id="phone-input"
                         placeholder="Enter your phone"
@@ -417,7 +512,26 @@ export class MyElement extends LitElement {
                       <p id="display">${this.empForm.phone.errorMessage}</p>`
               }
             </div>
-
+            
+            <div class="form-control">
+              <label for="empcode-input">Employee Code*</label>
+              <sl-input
+                id="empcode-input"
+                required
+                placeholder="Enter your Employee code"
+                name="empCode"
+                type="email"
+                @input=${(e) => this.decider(e, "empCode")}
+                style=${
+                  this.empForm.empCode?.errorMessage
+                    ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                    : ""
+                }
+                   placeholder="Clearable"
+                clearable
+              /></sl-input>
+              <p id="display">${this.empForm.empCode.errorMessage}</p>
+            </div>
             <div class="form-control">
             <label>Designation*</label>
               <sl-select
@@ -610,26 +724,27 @@ export class MyElement extends LitElement {
     switch (type) {
       case "name":
         {
-          this.progress=7.6;
+          // this.progress=7.6;
           //value will be restored in the begining when entered to json
 
           if (e.target.value.length > 7) {
             this.error_false("name", "Username can't exceed 7 characters");
           } else if (e.target.value.length ==""){ 
             this.error_false("name", "Can'be blank");
-            this.progress=this.progress-7.6;
+            // this.progress=this.progress-7.6;
           }else if(e.target.value.length <=7){
             this.error_true("name", "");
           }
         }
+        this.progressOne();
         break;
-
-      case "empCode":
-        {
-          if (e.target.value.length > 8) {
+        
+        case "empCode":
+          {
+          if (e.target.value.length > 7) {
             this.error_false("empCode", "Length Cant exceed 8 characters");
           } else if (
-            (e.target.value.length == 8 &&
+            (e.target.value.length == 7 &&
               e.target.value.match(/[0-9]{6}[A-Z]/)) ||
             e.target.value.match(/[0-9]{5}[A-Z][0-9]/) ||
             e.target.value.match(/[0-9]{4}[A-Z][0-9]{2}/) ||
@@ -639,17 +754,18 @@ export class MyElement extends LitElement {
             e.target.value.match(/[A-Z][0-9]{6}/)
           ) {
             this.error_true("empCode", "");
-          } else if(e.target.value.length >0 && e.target.value.length<8) {
+          } else if(e.target.value.length >0 && e.target.value.length<7) {
             this.error_false("empCode", "Enter a valid format");
           } else if (e.target.value.length == "") {
             this.error_false("empCode", "Can't be blank");
           }
         }
+        this.progressTwo();
         break;
-
-      case "email":
-        {
-          this.progress=22.8;
+        
+        case "email":
+          {
+            // this.progress=22.8;
           const personalmailformat = /(@gmail.com)/;
           const officialmailformat = /(@annalect.com)/;
           let changevalue = this.EmailChecked;
@@ -658,28 +774,28 @@ export class MyElement extends LitElement {
           if (
             changevalue === "official" &&
             e.target.value.match(officialmailformat)
-          ) {
-            this.error_true("email", "");
-          } else if (
-            changevalue === "personal" &&
-            e.target.value.match(personalmailformat)
-          ) {
-            this.error_true("email", "");
-            // console.log(this.empForm.email);
-          } 
-          else if(changevalue === "official" && !e.target.value.match(officialmailformat)){
-          this.error_false("email", "Match official email format");
-          }
-          else if(changevalue === "personal" && !e.target.value.match(personalmailformat)){
-          this.error_false("email", "Match personal email format");
-          }
-          else if(e.target.value == ""){
-          this.error_false("email", "Can't be blank");
-          this.progress=this.progress-7.6;
-          }
-        }
-        break;
-
+            ) {
+              this.error_true("email", "");
+            } else if (
+              changevalue === "personal" &&
+              e.target.value.match(personalmailformat)
+              ) {
+                this.error_true("email", "");
+                // console.log(this.empForm.email);
+              } 
+              else if(changevalue === "official" && !e.target.value.match(officialmailformat)){
+                this.error_false("email", "Match official email format");
+              }
+              else if(changevalue === "personal" && !e.target.value.match(personalmailformat)){
+                this.error_false("email", "Match personal email format");
+              }
+              else if(e.target.value == ""){
+                this.error_false("email", "Can't be blank");
+                // this.progress=this.progress-7.6;
+              }
+            }
+            break;
+            
       case "phone":
         {
           //value will be restored in the begining when entered to json
@@ -713,7 +829,7 @@ export class MyElement extends LitElement {
 
       case "address":
         {
-          this.progress=53.2;
+          // this.progress=53.2;
           if (e.target.value.length > 80) {
             this.error_false("address", "Enter valid Address");
             this.progress=this.progress-7.6;
@@ -724,10 +840,11 @@ export class MyElement extends LitElement {
             this.error_true("address", "");
           }
         }
+        this.progressThree();
         break;
       case "landmark":
         {
-          this.progress=60.8;
+          // this.progress=60.8;
           if (e.target.value.length > 5) {
             this.error_false("landmark", "Length can't exceed 5");
             this.progress=this.progress-7.6;
@@ -735,10 +852,11 @@ export class MyElement extends LitElement {
             this.error_true("landmark", "");
           }
         }
+        this.progressFour();
         break;
       case "zipcode":
         {
-          this.progress=90;
+          // this.progress=90;
           if (e.target.value.length ==6) {
             this.error_true("zipcode", "");
           } else if(e.target.value.length >=7){
@@ -750,6 +868,7 @@ export class MyElement extends LitElement {
             this.error_false("zipcode", "Invalid zipcode");
           }
         }
+        this.progressFive();
         break;
     }
   }
@@ -761,7 +880,6 @@ export class MyElement extends LitElement {
       this.empForm.empCode.isValidName === true &&
       this.empForm.email.isValidName === true &&
       this.empForm.phone.isValidName === true &&
-      this.empForm.department.isValidName === true &&
       this.empForm.address.isValidName === true &&
       this.empForm.landmark.isValidName === true &&
       this.empForm.zipcode.isValidName === true

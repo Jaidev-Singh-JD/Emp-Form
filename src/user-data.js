@@ -146,7 +146,7 @@ export class Userdata extends LitElement {
   static get styles() {
     return css`
       sl-button{
-        background-color:#000;
+        background-color:#0c0120;
       }
       .wrapper {
         display: inline-flex;
@@ -267,7 +267,7 @@ export class Userdata extends LitElement {
         
       }
       .btn-sort::part(base){
-        background-color:#000;
+        background-color:#0c0120;
         outline: none;
         border: none;
       }

@@ -1,3 +1,3 @@
 export const country =[
-    "India","Bhutan","Bangladesh","Sri Lanka","China"
+    "India","Bhutan","Bangladesh","Sri_Lanka","China"
 ]
