@@ -561,9 +561,9 @@ export class MyElement extends LitElement {
             <h2>EMPLOYEE FORM <sl-tooltip placement="right" content="Instructions to fill the form "><a style="font-size: 16px;" target="_blank" href="doc.html"
             ><sl-icon name="info-circle"></sl-icon></a></sl-tooltip></h2>        
           </div>
-          <sl-progress-bar value=${this.progress} class="progress-bar-values">${
+          ${!this.isEditing?html`<sl-progress-bar value=${this.progress} class="progress-bar-values">${
       this.progress
-    }%</sl-progress-bar>
+    }%</sl-progress-bar>`:""}
           <div class="wrap">
             <div class="empimg">
             <img src="src/assets/emp.gif" id="emp" width="">

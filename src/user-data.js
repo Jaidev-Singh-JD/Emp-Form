@@ -304,24 +304,24 @@ export class Userdata extends LitElement {
         outline: 1px solid slategrey;
       }
       .btn-cancel {
-        background:linear-gradient(to left,#74ebd5,	#9face6);
+      background:linear-gradient(to left,#74ebd5,	#9face6);
       border-radius:6px;
       border:none;
       outline:none;
       display:block;
       font-size:12px;
       padding:12px 0;
-      margin:19px 0px;
+      margin:11px 0px;
       width:30%;
       font-weight:bold;
       text-transform:uppercase;
       cursor:pointer;
       color:#000000;
       transition:all 1s ease;
-      }
-      .btn-cancel:hover {
-        background: linear-gradient(to right, #74ebd5, #9face6);
-      }
+    }
+    .btn-cancel:hover{
+      background:linear-gradient(to right,#74ebd5,	#9face6);
+    }
       #popUpForm::backdrop {
         background: #0b23a9;
         opacity: 0.6;
