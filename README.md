@@ -9,5 +9,7 @@ Employee Form using lit+vite, Javascript ,CSS, HTML
 </ul>
 
 Project Images
+![image](https://github.com/JD-ANNALECT/Emp-Form/assets/120723984/d9d88426-54a0-4c02-bf91-ea9eb168dd25)
+![image](https://github.com/JD-ANNALECT/Emp-Form/assets/120723984/d47682e6-55b7-47fa-a1d8-7187d83aa818)
 ![image](https://github.com/JD-ANNALECT/Emp-Form/assets/120723984/d7752a6a-abeb-4ff9-bbbb-f530580a6c10)
-![image](https://github.com/JD-ANNALECT/Emp-Form/assets/120723984/1a74ed2e-0697-4595-b340-e5d7a3f5a226)
+
