@@ -11,9 +11,9 @@ import "@shoelace-style/shoelace/dist/components/input/input.js";
 import "@shoelace-style/shoelace/dist/components/select/select.js";
 import "@shoelace-style/shoelace/dist/components/option/option.js";
 import { serialize } from "@shoelace-style/shoelace/dist/utilities/form.js";
-import '@shoelace-style/shoelace/dist/components/progress-ring/progress-ring.js';
 import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js";
-
+import "@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js";
+import "@shoelace-style/shoelace/dist/components/alert/alert.js";
 export class MyElement extends LitElement {
   static get properties() {
     return {
@@ -24,12 +24,12 @@ export class MyElement extends LitElement {
       isEditing: { type: Boolean },
       editData: { type: Object },
       savedData: { type: Array },
-      progress:{ type:Number},
-      progress1:{ type:Number},
-      progress2:{ type:Number},
-      progress3:{ type:Number},
-      progress4:{ type:Number},
-      progress5:{ type:Number},
+      progress: { type: Number },
+      progress1: { type: Number },
+      progress2: { type: Number },
+      progress3: { type: Number },
+      progress4: { type: Number },
+      progress5: { type: Number },
     };
   }
 
@@ -53,19 +53,47 @@ export class MyElement extends LitElement {
     };
     this.EmpFormData = [];
     this.isEditing = false;
-    this.progress=0;
-    this.progress1=0;
-    this.progress2=0;
-    this.progress3=0;
-    this.progress4=0;
-    this.progress5=0;
+    this.progress = 0;
+    this.progress1 = 0;
+    this.progress2 = 0;
+    this.progress3 = 0;
+    this.progress4 = 0;
+    this.progress5 = 0;
   }
 
   static get styles() {
     return css`
     sl-input,sl-select{
+      width: 98.5%;
       --sl-input-focus-ring-color:hsl(74, 73%, 51%);
     }
+    .select--standard .select__combobox {
+      border-bottom: solid var(4px) var(#fff);
+    }
+    sl-option::part(base){
+      font-size:12px;
+    }
+    sl-select::part(combobox){
+      border-bottom: 0px solid #0186a7;
+      font-size:12px;
+      border-bottom: 2px solid #0186a7;
+      border-radius:5px;
+    }
+    sl-input::part(input){
+        border-bottom: 2px solid #0186a7;
+        border-radius:5px;
+        font-size:14px;
+      }
+      .form sl-tooltip::part(body){
+        background-color: #e6d48c;
+        outline:#e7fb32;
+        color: #000;
+      }
+      sl-tooltip::part(body){
+        background-color: #119231;
+        outline:#119231;
+        text-color: #fff;
+      }
     .progress sl-progress-ring{
       color:#000000;
       font-size:30px;
@@ -87,7 +115,8 @@ export class MyElement extends LitElement {
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      box-sizing:border box;
+      box-sizing:border-box;
+      padding:16px 0px;
       background: linear-gradient(45deg,#66a924,	#74ebd5,#242734,#9face6,#0b2822)0 0 /1000% no-repeat;
       animation: animate 20s ease infinite;
     }
@@ -107,65 +136,35 @@ export class MyElement extends LitElement {
     .header h2{
       color:#222;
       font-family: 'Montserrat', sans-serif;
-      font-size:30px;
+      font-size:25px;
       text-transform:uppercase;
       text-align:center;
     }
     .header {
-      background:linear-gradient(to left,#74ebd5,	#9face6);
-      padding:10px 0;
+      background:linear-gradient(to left,#d1cdcb,	#1b05e1);
+      padding:1px 0;
     }
     .container{
       background-color: #fff;
      border-radius:10px;
      -webkit-border-radius:10px;
      overflow-x:hidden;
-     width:60%;
-     height:575px;
-     margin:5px auto;
+     width:56.7%;
+     min-height:553px;
      box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12. ;
-     background:#e9f6f4;
+     background:#e8faf7;
     }
-    div::-webkit-scrollbar {
-        width: 1px;
-      }
-
-      div::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        }
-
-      div::-webkit-scrollbar-thumb {
-        background-color: #000000;
-        outline: 1px solid slategrey;
-        border-radius:2px;
-      }
     .form{
-      padding: 40px;
-    }
-    .form-control{
-      margin-bottom:20px;
+      padding: 12px 12px;
       position:relative;
+      background-color:#e8faf7;
     }
     .form-control label{
       display:block;
-      margin-bottom:5px;
       font-weight:bold;
       font-family: 'Mulish', sans-serif;
-      font-size:18px;
-      padding:2px;
-    }
-    .form-control input{
-      width:100%
-      border:2px solid #f0f0f0
-      border-radius:5px;
-      display:block;
-      font-family: 'Mulish', sans-serif;
       font-size:14px;
-      padding:12px;
-    }
-    .form-control input:focus{
-      outline:0;
-      border-color:#777
+      padding:2px;
     }
     .form .btn {
       background:linear-gradient(to left,#74ebd5,	#9face6);
@@ -173,10 +172,10 @@ export class MyElement extends LitElement {
       border:none;
       outline:none;
       display:block;
-      font-size:16px;
-      padding:15px 0;
-      margin-top:20px;
-      width:101%;
+      font-size:12px;
+      padding:12px 0;
+      margin:11px 0px;
+      width:30%;
       font-weight:bold;
       text-transform:uppercase;
       cursor:pointer;
@@ -193,42 +192,199 @@ export class MyElement extends LitElement {
     }
     .radio label{
       font-family:"mulish",sans-serif;
-      font-size:14px;
+      font-size:12px;
       font-weight:lighter;
     }
     .radio1 label{
       font-family:"mulish",sans-serif;
-      font-size:14px;
+      font-size:12px;
       font-weight:lighter;
     }
     .radio input{
-      margin:10px 20px 15px;
+      margin:10px 10px 10px;
+      cursor:pointer;
     }
     .radio1 input{
-      margin:10px 20px 15px;
+      margin:10px 10px 10px;
+      cursor:pointer;
     }
     #display{
       color:red
     }
-    input{
-      width:96.5%;
-    }
-    #country,#state,#city,#department,#designation{
-      width:101%;
-      height:30px; 
-    }
     select{
       border:2px solid #f0f0f0
       border-radius:5px;
+     
     }
     select input:focus{
       outline:0;
       border-color:#1e1e1e
     }
-    a{
-      align-items:center;
-      justify-content:center;
+    
+
+    .part1{
+      box-shadow:0 -1px 5px -1px #fff;
+      background-color:#e8eded;
+      margin:-30px -37px;
+      padding:0px 20px;
+      width:330px;
+      height:350px;
+      border-radius:10px;
+      border-top-left-radius:0px;
+      border-top-right-radius:0px;
+      /* display:none; */
+    } 
+    .part2{
+      background-color:#e8eded;
+      margin:-30px -37px;
+      padding:0px 20px;
+      width:330px;
+      height:350px;
+      border-radius:10px;
+      border-top-left-radius:0px;
+      border-top-right-radius:0px;
+      /* display:none; */
+    }
+    .part1 label{
+      padding:8px;
+    }
+    .part2 label{
+      padding:8px;
+    }
+    .part3 label{
+      padding:8px;
+    }
+    .part3{
+      background-color:#e8eded;
+      margin:-30px -37px;
+      padding:0px 20px;
+      width:330px;
+      height:350px;
+      border-radius:10px;
+      border-top-left-radius:0px;
+      border-top-right-radius:0px;
+    }
+    
+    .part3 #zip{
+      width:160px;
+      /* padding:0px 5px; */
+      margin:0px 1.5px;
+      height:100%;
+    }
+    .part3 #city{
+      width:160px;
+      /* padding:0px 5px; */
+      margin:0px 1.5px;
+    }
+    .btn-box{
       display:flex;
+      gap:5px;
+      background-color:#e8eded;
+      margin:0px -20px;
+      padding:0px 20px;
+      border-bottom-left-radius:10px;
+      border-bottom-right-radius:10px; 
+      border-bottom:-20px;
+    }
+    h3{
+      text-align:center;
+      font-family:Mulish;
+    }
+    sl-progress-bar::part(base){
+      border-radius:0px;
+      background:#e9f6f4;
+    }
+    span{
+      color:red;
+      font-weight:bolder;
+      font-size:16px;
+    }
+    .empform .step-row{
+      margin-right:30px;
+      width:370px;
+      display:flex;
+      height:40px;
+      align-items:center;
+      position:relative;
+      overflow:hidden;
+      border-top-left-radius:10px;
+      border-top-right-radius:10px;
+      border-bottom:2px ridge #28282e;
+      background-color:#e8eded;
+    }
+    .empform .test{
+      background-color:black;
+      margin-left:24px;
+    }
+    
+    .step-col{
+      text-align:center;
+      width:133.3px;
+      position:relative;
+    }
+    #step-progress{
+      position:absolute;
+      width:123.3px;
+      height:100%;
+      background:linear-gradient(to left,#74ebd5,	#9face6);
+      transition:1s;
+    }
+    #step-progress::after{
+      content:'';
+      height:0;
+      width:0;
+      border-top:20px solid transparent;
+      border-bottom:20px solid transparent;
+      position:absolute;
+      right:-20px;
+      top:0;
+      border-left:20px solid #74ebd5;   
+    }
+    .visible{
+      display:block;
+    }
+    .invisible{
+      display:none;
+    }
+    .part1 sl-icon{
+      color:#02717d;
+      margin:-2px 5px;
+    }
+    .part2 sl-icon{
+      color:#02717d;
+      margin:-2px 5px;
+    }
+    .part3 sl-icon{
+      color:#02717d;
+      margin:-2px 5px;
+    }
+    small{
+      font-family:"mulish"
+    }
+    .grid{
+      display:flex;
+    }
+    .grid1{
+      display:flex;  
+    }
+    .wrap{
+      display:flex;
+    }
+    #emp{
+      padding:80px 20px;
+      background-color: transparent;
+     width:80%;
+    }
+    .alert{
+      z-index:2;
+      width:58%;
+      position:absolute;
+    }
+    a{
+      cursor:help;
+    }
+    sl-progress-bar{
+      padding-bottom:3px;
     }
 `;
   }
@@ -259,7 +415,7 @@ export class MyElement extends LitElement {
         // console.log(fields[fieldId]);
       }
       this.renderRoot.querySelector("#phone-input").value = this.editData.phone;
-      // console.log(this.editData.phone);
+      console.log(this.editData.phone);
       this.renderRoot.querySelector("#zip").value = Number(
         this.editData.zipcode
       );
@@ -297,117 +453,142 @@ export class MyElement extends LitElement {
       },
     };
   }
-  progressOne(){
-    if(this.empForm.name.isValidName===true){
-    this.progress1=20;
-    this.finalprogress() 
-    console.log("in name") 
-    }
-    else{
-      this.progress1=0;
-      this.finalprogress()
-    }
-  }
-  progressTwo(){
-    if(this.empForm.empCode.isValidName===true){
-    this.progress2=20; 
-    this.finalprogress() 
-    }
-    else{
-      this.progress2=0;
-      this.finalprogress()
+  progressOne() {
+    if (this.empForm.name.isValidName === true) {
+      this.progress1 = 20;
+      this.finalprogress();
+      console.log("in name");
+    } else {
+      this.progress1 = 0;
+      this.finalprogress();
     }
   }
-  progressThree(){
-    if(this.empForm.address.isValidName===true){
-    this.progress3=20; 
-    this.finalprogress() 
-    }
-    else{
-      this.progress3=0;
-      this.finalprogress()
-    }
-  }
-  progressFour(){
-    if(this.empForm.landmark.isValidName===true){
-    this.progress4=20; 
-    this.finalprogress() 
-    }
-    else{
-      this.progress4=0;
-      this.finalprogress()
+  progressTwo() {
+    if (this.empForm.empCode.isValidName === true) {
+      this.progress2 = 20;
+      this.finalprogress();
+    } else {
+      this.progress2 = 0;
+      this.finalprogress();
     }
   }
-  progressFive(){
-    if(this.empForm.zipcode.isValidName===true){
-    this.progress5=20; 
-    this.finalprogress() 
-    }
-    else{
-      this.progress5=0;
-      this.finalprogress()
+  progressThree() {
+    if (this.empForm.address.isValidName === true) {
+      this.progress3 = 20;
+      this.finalprogress();
+    } else {
+      this.progress3 = 0;
+      this.finalprogress();
     }
   }
-  finalprogress(){
-    this.progress=Number(this.progress1)+Number(this.progress2)+Number(this.progress3)+Number(this.progress4)+Number(this.progress5);
-    console.log(this.progress)
+  progressFour() {
+    if (this.empForm.landmark.isValidName === true) {
+      this.progress4 = 20;
+      this.finalprogress();
+    } else {
+      this.progress4 = 0;
+      this.finalprogress();
+    }
   }
-
-
-//   progresse() {
-//     if(
-//       this.empForm.name.isValidName === true &&
-//       this.empForm.empCode.isValidName === true &&
-//       this.empForm.email.isValidName === true &&
-//       this.empForm.phone.isValidName === true &&
-//       this.empForm.address.isValidName === true &&
-//       this.empForm.landmark.isValidName === true &&
-//       this.empForm.zipcode.isValidName === true
-//     )
-//       {
-//         this.progress=100;
-//       }
-//     else if (this.empForm.name.isValidName === true &&
-//       this.empForm.empCode.isValidName === true &&
-//       this.empForm.email.isValidName === true &&
-//       this.empForm.phone.isValidName === true )
-//       {
-//       this.progress=50
-//     }
-//     else if (this.empForm.name.isValidName === true &&
-//       this.empForm.empCode.isValidName === true &&
-//       this.empForm.email.isValidName === true &&
-//       this.empForm.phone.isValidName === true &&
-//       this.empForm.address.isValidName === true  )
-//       {
-//       this.progress=80
-//     }
-//       else{
-//         this.progress=this.progress;
-//       }
-// }
+  progressFive() {
+    if (this.empForm.zipcode.isValidName === true) {
+      this.progress5 = 20;
+      this.finalprogress();
+    } else {
+      this.progress5 = 0;
+      this.finalprogress();
+    }
+  }
+  finalprogress() {
+    this.progress =
+      Number(this.progress1) +
+      Number(this.progress2) +
+      Number(this.progress3) +
+      Number(this.progress4) +
+      Number(this.progress5);
+    console.log(this.progress);
+  }
+  next() {
+    let part1 = this.renderRoot.querySelector(".part1");
+    let part2 = this.renderRoot.querySelector(".part2");
+    let progress = this.renderRoot.querySelector("#step-progress");
+    part2.classList.add("visible");
+    part1.classList.add("invisible");
+    part2.classList.remove("invisible");
+    progress.style.width = "266.6px";
+  }
+  back1() {
+    let part1 = this.renderRoot.querySelector(".part1");
+    let part2 = this.renderRoot.querySelector(".part2");
+    let progress = this.renderRoot.querySelector("#step-progress");
+    part2.classList.remove("visible");
+    part2.classList.add("invisible");
+    part1.classList.remove("invisible");
+    part1.classList.add("visible");
+    progress.style.width = "133.3px";
+  }
+  next2() {
+    let part2 = this.renderRoot.querySelector(".part2");
+    let part3 = this.renderRoot.querySelector(".part3");
+    let progress = this.renderRoot.querySelector("#step-progress");
+    part2.classList.remove("visible");
+    part2.classList.add("invisible");
+    part3.classList.remove("invisible");
+    part3.classList.add("visible");
+    progress.style.width = "370px";
+  }
+  back2() {
+    let part2 = this.renderRoot.querySelector(".part2");
+    let part3 = this.renderRoot.querySelector(".part3");
+    let progress = this.renderRoot.querySelector("#step-progress");
+    part3.classList.remove("visible");
+    part3.classList.add("invisible");
+    part2.classList.remove("invisible");
+    part2.classList.add("visible");
+    progress.style.width = "246.6px";
+  }
   render() {
     return html`
-      <div id="bod">
-        ${this.isEditing?"":html`
-        <div class="progress">
-          <label for=progress>Progress meter</label>
-          <sl-progress-ring value=${this.progress} class="progress-ring-values" >${this.progress}</sl-progress-ring>
-        </div>`}
-        
+      <div id="bod"> 
         <div class="container">
           <div class="header">
-            <h2>EMPLOYEE FORM</h2>
+            <div class="alert">
+            <sl-alert duration="1000" variant="danger">
+              <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+              <strong>Fill all *Mandatory fields first</strong>
+              </sl-alert>
+  </div>
+            <h2>EMPLOYEE FORM <sl-tooltip placement="right" content="Instructions to fill the form "><a style="font-size: 16px;" target="_blank" href="doc.html"
+            ><sl-icon name="info-circle"></sl-icon></a></sl-tooltip></h2>        
           </div>
-          <a target="_blank" href="doc.html"
-            >Instruction to fill the form and validation</a
-          >
+          <sl-progress-bar value=${this.progress} class="progress-bar-values">${
+      this.progress
+    }%</sl-progress-bar>
+          <div class="wrap">
+            <div class="empimg">
+            <img src="src/assets/emp.gif" id="emp" width="">
+            </div>
+            <div class="empform">
+          <div class="step-row">
+            <div id="step-progress"></div>
+            <div class="step-col"><small>Step 1</small></div>
+            <div class="step-col"><small>Step 2</small></div>
+            <div class="step-col"><small>Step 3</small></div>
+          </div>
+          <div class="test">
           <form
             class="form"
             @submit=${this.isEditing ? this.updateData : this.submit}
           >
-            <div class="form-control">
-              <label for="name-input"> UserName*</label>
+          <div class="part1">
+            <h3><sl-icon name="person-bounding-box"></sl-icon>PERSONAL DETAILS </h3>
+            <div class="form-control">  
+              <label for="name-input"> Fullname <span>*</span></label>
+              <sl-tooltip hoist placement="right" content=${
+                this.empForm.name?.errorMessage
+                  ? this.empForm.name.errorMessage
+                  : "Your fullname"
+              }>
               <sl-input
                 type="text"
                 id="name-input"
@@ -424,103 +605,139 @@ export class MyElement extends LitElement {
                 placeholder="Clearable"
                 clearable
               ></sl-input>
-              <p id="display">${this.empForm.name.errorMessage}</p>
+            </sl-tooltip>
             </div>
 
             
             <div class="form-control">
-              <label for="email-input">Email*</label>
+              <label for="email-input">Email <span>*</span></label>
               <div class="radio">
                 <label for="personal">Personal</label><br />
                 <input
                   type="radio"
+                  name="email1"
                   value="personal"
-                  name="email"
                   @change=${this.handleRadioChange}
                 />
                 <label for="official">Official</label><br />
                 <input
                   type="radio"
+                  name="email1"
                   value="official"
-                  name="email"
                   @change=${this.handleRadioChange}
                 />
               </div>
+              <sl-tooltip hoist placement="right" content=${
+                this.empForm.email?.errorMessage
+                  ? this.empForm.email.errorMessage
+                  : "Your email address personal/official"
+              }>
               <sl-input
                 id="email-input"
+                name="email"
                 placeholder="Enter your Email Address"
                 required
                 @input=${(e) => this.decider(e, "email")}
                 style=${
                   this.empForm.email?.errorMessage
-                  ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                    ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
                     : ""
                 }
               ></sl-input>
-              <p id="display">${this.empForm.email.errorMessage}</p>
+            </sl-tooltip>
             </div>
 
             <div class="form-control">
-              <label for="phone-input">Phone Number*</label>
+              <label for="phone-input">Phone Number <span>*</span></label>
               <div class="radio1">
                 <label for="primary">Primary</label><br />
                 <input
                   type="radio"
                   value="primary"
-                  name="phone"
+                  name="phone1"
                   @change=${this.handleRadio1Change}
                   />
                 <label for="secondary">Secondary</label><br />
                 <input
                   type="radio"
+                  name="phone1"
                   value="secondary"
-                  name="phone"
                   @change=${this.handleRadio1Change}
                 />
                 <label for="emergency">Emergency</label><br />
                 <input
                   type="radio"
                   value="emergency"
-                  name="phone"
+                  name="phone1"
                   @change=${this.handleRadio1Change}
                 />
               </div>
               ${
                 !this.isEditing
-                  ? html`<sl-input
-                        type="Number"
-                        id="phone-input"
-                        placeholder="Enter your phone"
-                        autocomplete="off"
-                        required
-                        @input=${(e) => this.decider(e, "phone")}
-                        style=${this.empForm.phone?.errorMessage
-                          ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
-                          : ""}
-                      ><sl-input>
-                        <p id="display">${this.empForm.phone.errorMessage}</p>`
-                  : html`<sl-input
-                        id="phone-input"
-                        placeholder="Enter your phone"
-                        autocomplete="off"
-                        required
-                        @input=${(e) => this.decider(e, "phone")}
-                        style=${this.empForm.phone?.errorMessage
-                          ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
-                          : ""}
-                      ></sl-input>
-                      <p id="display">${this.empForm.phone.errorMessage}</p>`
+                  ? html`
+                      <sl-tooltip
+                        hoist
+                        placement="right"
+                        content=${this.empForm.phone?.errorMessage
+                          ? this.empForm.phone.errorMessage
+                          : "Your 10 digit Phone number"}
+                      >
+                        <sl-input
+                          type="Number"
+                          id="phone-input"
+                          name="phone"
+                          placeholder="Enter your phone"
+                          autocomplete="off"
+                          required
+                          @input=${(e) => this.decider(e, "phone")}
+                          style=${this.empForm.phone?.errorMessage
+                            ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                            : ""}
+                        ></sl-input>
+                      </sl-tooltip>
+                    `
+                  : html`
+                      <sl-tooltip
+                        hoist
+                        placement="right"
+                        content=${this.empForm.phone?.errorMessage
+                          ? this.empForm.phone.errorMessage
+                          : "Your 10 digit Phone number"}
+                        ><sl-input
+                        name="phone"
+                          id="phone-input"
+                          placeholder="Enter your phone"
+                          autocomplete="off"
+                          required
+                          @input=${(e) => this.decider(e, "phone")}
+                          style=${this.empForm.phone?.errorMessage
+                            ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                            : ""}
+                        ></sl-input>
+                      </sl-tooltip>
+                    `
               }
             </div>
-            
+            <div class="btn-box">
+                <button @click=${
+                  this.next
+                } class ="btn" type="button" id="next1">Next</button>
+            </div>
+            </div>
+            <div class="part2 invisible" >
+              <h3> <sl-icon name="briefcase"></sl-icon>WORK DETAILS</h3>
             <div class="form-control">
-              <label for="empcode-input">Employee Code*</label>
+              <label for="empcode-input">Employee Code <span>*</span></label>
+              <sl-tooltip hoist  placement="right" content=${
+                this.empForm.empCode?.errorMessage
+                  ? this.empForm.empCode.errorMessage
+                  : "Your Employee Code"
+              }>
               <sl-input
                 id="empcode-input"
                 required
                 placeholder="Enter your Employee code"
                 name="empCode"
-                type="email"
                 @input=${(e) => this.decider(e, "empCode")}
                 style=${
                   this.empForm.empCode?.errorMessage
@@ -530,10 +747,11 @@ export class MyElement extends LitElement {
                    placeholder="Clearable"
                 clearable
               /></sl-input>
-              <p id="display">${this.empForm.empCode.errorMessage}</p>
+              </sl-tooltip>
             </div>
             <div class="form-control">
-            <label>Designation*</label>
+            <label>Designation <span>*</span></label>
+            <sl-tooltip hoist  placement="right" content="Your Designation">
               <sl-select
                 id="designation"
                 required
@@ -546,10 +764,12 @@ export class MyElement extends LitElement {
                   (e) => html` <sl-option value=${e}>${e}</sl-option>`
                 )}
               </sl-select>
+              </sl-tooltip>
             </div>
 
             <div class="form-control">
-              <label>Department*</label>
+              <label>Department <span>*</span></label>
+              <sl-tooltip hoist placement="right" content="Your Department">
               <sl-select
                 id="department"
                 required
@@ -562,12 +782,44 @@ export class MyElement extends LitElement {
                     : ""
                 }
               >
-                ${repeat(department, (e) => html`<sl-option value="${e}">${e}</sl-option>`)}
+                ${repeat(
+                  department,
+                  (e) => html`<sl-option value="${e}">${e}</sl-option>`
+                )}
               </sl-select>
+              </sl-tooltip>
             </div>
-
+            
             <div class="form-control">
-              <label>Address line 1*</label>
+              <label>Work Address</label>
+              <sl-tooltip  hoist placement="right" content="Your Work Address"}>
+              <sl-input
+                id="adline2"
+                placeholder="Enter your work address"
+                autocomplete="off"
+                name="address1"
+                @input=${(e) => this.decider(e, "address1")}
+              ></sl-input>
+                </sl-tooltip>
+            </div>
+            <div class="btn-box">
+              <button @click=${
+                this.back1
+              } class="btn" type="button" id="back1">Back</button>
+              <button @click=${
+                this.next2
+              } class="btn" type="button" id="next2">Next</button>
+            </div>
+          </div>
+          <div class="part3 invisible">
+          <h3> <sl-icon name="house"></sl-icon>ADDRESS DETAILS</h3>
+            <div class="form-control">
+              <label>Address <span>*</span></label>
+              <sl-tooltip  hoist placement="right" content=${
+                this.empForm.address?.errorMessage
+                  ? this.empForm.address.errorMessage
+                  : "Your Address"
+              }>
               <sl-input
                 id="adline1"
                 placeholder="Enter your Address"
@@ -583,21 +835,15 @@ export class MyElement extends LitElement {
                     : ""
                 }
               ></sl-input>
-              <p id="display">${this.empForm.address.errorMessage}</p>
+              </sl-tooltip>
             </div>
             <div class="form-control">
-              <label>Address line 2</label>
-              <sl-input
-                id="adline2"
-                placeholder="optional"
-                autocomplete="off"
-                name="address1"
-                @input=${(e) => this.decider(e, "address1")}
-              ></sl-input>
-            </div>
-
-            <div class="form-control">
-              <label>Landmark*</label>
+              <label>Landmark <span>*</span></label>
+              <sl-tooltip  hoist placement="right" content=${
+                this.empForm.landmark?.errorMessage
+                  ? this.empForm.landmark.errorMessage
+                  : "Your landmark"
+              }>
               <sl-input
                 id="landmark"
                 required
@@ -605,19 +851,20 @@ export class MyElement extends LitElement {
                 name="landmark"
                 placeholder="Enter your Landmark"
                 autocomplete="off"
-                @click=${(e) => this.decider(e, "landmark")}
+                @input=${(e) => this.decider(e, "landmark")}
                 style=${
                   this.empForm.landmark?.errorMessage
-                    ? "--sl-input-focus-ring-color:hsl(0, 84% 54%)"
+                    ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
                     : ""
                 }
               /></sl-input>
-              <p id="display">${this.empForm.landmark.errorMessage}</p>
+              </sl-tooltip>
             </div>
-
+                <div class="grid">
             <div class="form-control">
-              <label>Country*</label>
-              <sl-select
+              <label>Country <span>*</span></label>
+              <sl-tooltip  hoist  placement="left" content="Your Country">
+              <sl-select 
                 id="country"
                 required
                 name="country"
@@ -625,13 +872,17 @@ export class MyElement extends LitElement {
                 @click=${(e) => this.decider(e, "country")}
                
               >
-                ${repeat(country, (e) => html` <sl-option value=${e}>${e}</sl-option>`)}
+                ${repeat(
+                  country,
+                  (e) => html` <sl-option value=${e}>${e}</sl-option>`
+                )}
               </sl-select>
-              <p id="display">${this.empForm.country.errorMessage}</p>
+                </sl-tooltip>
             </div>
             <div class="form-control">
               
-            <label>State*</label>
+            <label>State <span>*</span></label>
+            <sl-tooltip  hoist placement="right" content="Your State">
               <sl-select
                 id="state"
                 required
@@ -639,13 +890,18 @@ export class MyElement extends LitElement {
                 placeholder="Choose your state"
                 @click=${(e) => this.decider(e, "state")}
               >
-                ${repeat(state, (e) => html` <sl-option value=${e}>${e}</sl-option>`)}
+                ${repeat(
+                  state,
+                  (e) => html` <sl-option value=${e}>${e}</sl-option>`
+                )}
               </sl-select>
-              <p id="display">${this.empForm.state.errorMessage}</p>
+                </sl-tooltip>
             </div>
-
+                </div>
+                <div class=grid1>
             <div class="form-control">
-              <label>City*</label>
+              <label>City <span>*</span></label>
+              <sl-tooltip  hoist placement="left" content="Your City">
               <sl-select
                 id="city"
                 required
@@ -653,39 +909,71 @@ export class MyElement extends LitElement {
                 placeholder="Choose your city"
                 @click=${(e) => this.decider(e, "city")}
               >
-                ${repeat(city, (e) => html` <sl-option value=${e}>${e}</sl-option>`)}
+                ${repeat(
+                  city,
+                  (e) => html` <sl-option value=${e}>${e}</sl-option>`
+                )}
               </sl-select>
-              <p id="display">${this.empForm.city.errorMessage}</p>
+                </sl-tooltip>
             </div>
 
             <div class="form-control">
-              <label>Zip Code*</label>
+              <label>Zip <span>*</span></label>
+              <sl-tooltip  hoist placement="right" content=${
+                this.empForm.zipcode?.errorMessage
+                  ? this.empForm.zipcode.errorMessage
+                  : "Your Zip"
+              }>
               <sl-input
                 type="Number"
                 id="zip"
                 required
-                placeholder="Enter your pincode"
+                placeholder="Enter your zip"
                 autocomplete="off"
                 name= "zipcode"
                 @input=${(e) => this.decider(e, "zipcode")}
                 style=${
                   this.empForm.zipcode?.errorMessage
-                  ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
+                    ? "--sl-input-focus-ring-color:hsl(0deg 100% 50%)"
                     : ""
                 }
               ></sl-input>
-              <p id="display">${this.empForm.zipcode.errorMessage}</p>
+              </sl-tooltip>
             </div>
-
+              </div>
+                <div class=btn-box>
             ${
               !this.isEditing
-                ? html`<button class="btn" type="submit">Submit</button>`
-                : html`<button class="btn" type="submit">Update</button>`
+                ? html`<button
+                      @click=${this.back2}
+                      class="btn"
+                      type="button"
+                      id="back2"
+                    >
+                      Back
+                    </button>
+                    <button class="btn" type="submit">Submit</button>`
+                : html`
+                <button
+                      @click=${this.back2}
+                      class="btn"
+                      type="button"
+                      id="back2"
+                    >
+                      Back
+                    </button>
+                    <button class="btn" type="submit">Update</button>
+                    <slot></slot> `
             }
-            <slot></slot>
+            </div>
+            
+          </div>
           </form>
+          </div>
+          </div>
         </div>
       </div>
+    </div>
     `;
   }
 
@@ -698,7 +986,7 @@ export class MyElement extends LitElement {
 
   handleRadio1Change(e) {
     this.PhoneChecked = e.target.value;
-    // console.log(this.PhoneChecked)
+    console.log(this.PhoneChecked)
 
     this.validateForm(e, "phone");
   }
@@ -721,158 +1009,96 @@ export class MyElement extends LitElement {
   }
 
   validateForm(e, type) {
-    switch (type) {
-      case "name":
-        {
-          // this.progress=7.6;
-          //value will be restored in the begining when entered to json
+    const value = e.target.value;
 
-          if (e.target.value.length > 7) {
-            this.error_false("name", "Username can't exceed 7 characters");
-          } else if (e.target.value.length ==""){ 
-            this.error_false("name", "Can'be blank");
-            // this.progress=this.progress-7.6;
-          }else if(e.target.value.length <=7){
-            this.error_true("name", "");
-          }
-        }
-        this.progressOne();
-        break;
-        
-        case "empCode":
-          {
-          if (e.target.value.length > 7) {
-            this.error_false("empCode", "Length Cant exceed 8 characters");
-          } else if (
-            (e.target.value.length == 7 &&
-              e.target.value.match(/[0-9]{6}[A-Z]/)) ||
-            e.target.value.match(/[0-9]{5}[A-Z][0-9]/) ||
-            e.target.value.match(/[0-9]{4}[A-Z][0-9]{2}/) ||
-            e.target.value.match(/[0-9]{3}[A-Z][0-9]{3}/) ||
-            e.target.value.match(/[0-9]{2}[A-Z][0-9]{4}/) ||
-            e.target.value.match(/[0-9][A-Z][0-9]{5}/) ||
-            e.target.value.match(/[A-Z][0-9]{6}/)
-          ) {
-            this.error_true("empCode", "");
-          } else if(e.target.value.length >0 && e.target.value.length<7) {
-            this.error_false("empCode", "Enter a valid format");
-          } else if (e.target.value.length == "") {
-            this.error_false("empCode", "Can't be blank");
-          }
-        }
-        this.progressTwo();
-        break;
-        
-        case "email":
-          {
-            // this.progress=22.8;
-          const personalmailformat = /(@gmail.com)/;
-          const officialmailformat = /(@annalect.com)/;
-          let changevalue = this.EmailChecked;
-          // console.log(changevalue);
+    const validationRules = {
+      name: {
+        condition: value.length > 0 && value.length <= 7,
+        error: `⚠ Username can't exceed 7 characters`,
+        emptyError: "⚠ Can't be blank",
+        success: "",
+      },
+      empCode: {
+        condition:
+          value.length > 0 &&
+          value.length <= 7 &&
+          ((value.length === 7 && value.match(/[0-9]{6}[A-Z]/)) ||
+            value.match(/[0-9]{5}[A-Z][0-9]/) ||
+            value.match(/[0-9]{4}[A-Z][0-9]{2}/) ||
+            value.match(/[0-9]{3}[A-Z][0-9]{3}/) ||
+            value.match(/[0-9]{2}[A-Z][0-9]{4}/) ||
+            value.match(/[0-9][A-Z][0-9]{5}/) ||
+            value.match(/[A-Z][0-9]{6}/)),
+        error: " ⚠ Enter a valid format Match for {24248J2} format *one Alphabet ",
+        emptyError: " ⚠ Can't be blank",
+        success: "",
+      },
+      email: {
+        condition:
+          value.length > 0 &&
+          ((this.EmailChecked === "official" && value.match(/^[^\s@]+@annalect\.com$/)) ||
+            (this.EmailChecked === "personal" && value.match(/^[^\s@]+@gmail\.com$/))),
+        error:
+          this.EmailChecked === "official"
+            ? "⚠ Match official email format"
+            : "⚠ Match personal email format",
+        emptyError: "⚠ Can't be blank",
+        success: "",
+      },
+      phone: {
+        condition:
+          (this.PhoneChecked === "primary" ||
+            this.PhoneChecked === "secondary" ||
+            this.PhoneChecked === "emergency") &&
+          value.length === 10,
+        error: "⚠ Invalid",
+        emptyError: "⚠ Can't be blank",
+        success: "",
+      },
+      address: {
+        condition: value.length > 0 && value.length <= 80,
+        error: "⚠ Enter valid Address",
+        emptyError: "⚠ Can't be blank",
+        success: "",
+      },
+      landmark: {
+        condition:
+          value.length === 0 || (value.length > 0 && value.length <= 5),
+        error: "⚠ Length can't exceed 5",
+        emptyError: "⚠ Can't be blank",
+        success: "",
+      },
 
-          if (
-            changevalue === "official" &&
-            e.target.value.match(officialmailformat)
-            ) {
-              this.error_true("email", "");
-            } else if (
-              changevalue === "personal" &&
-              e.target.value.match(personalmailformat)
-              ) {
-                this.error_true("email", "");
-                // console.log(this.empForm.email);
-              } 
-              else if(changevalue === "official" && !e.target.value.match(officialmailformat)){
-                this.error_false("email", "Match official email format");
-              }
-              else if(changevalue === "personal" && !e.target.value.match(personalmailformat)){
-                this.error_false("email", "Match personal email format");
-              }
-              else if(e.target.value == ""){
-                this.error_false("email", "Can't be blank");
-                // this.progress=this.progress-7.6;
-              }
-            }
-            break;
-            
-      case "phone":
-        {
-          //value will be restored in the begining when entered to json
-          let changevaluep = this.PhoneChecked;
-          // console.log(changevaluep);
+      zipcode: {
+        condition: value.length > 0 && value.length === 6,
+        error: "⚠ Length must be 6",
+        emptyError: "⚠ Can't be blank",
+        success: "",
+      },
+    };
 
-          if (
-            changevaluep === "primary" &&
-            e.target.value.length == 10 &&
-            e.target.value.length <= 11
-          ) {
-            this.error_true("phone", "");
-          } else if (
-            changevaluep === "secondary" &&
-            e.target.value.length == 10 &&
-            e.target.value.length <= 11
-          ) {
-            this.error_true("phone", "");
-          } else if (
-            changevaluep === "emergency" &&
-            e.target.value.length == 10 &&
-            e.target.value.length <= 11
-          ) {
-            this.error_true("phone", "");
-          } else {
-            this.error_false("phone", "Invalid");
-            // console.log(this.empForm.phone);
-          }
-        }
-        break;
+    const rule = validationRules[type];
 
-      case "address":
-        {
-          // this.progress=53.2;
-          if (e.target.value.length > 80) {
-            this.error_false("address", "Enter valid Address");
-            this.progress=this.progress-7.6;
-          } else if(e.target.value === ""){
-            this.error_false("address", "Can't be blank");
-          }
-          else {
-            this.error_true("address", "");
-          }
-        }
-        this.progressThree();
-        break;
-      case "landmark":
-        {
-          // this.progress=60.8;
-          if (e.target.value.length > 5) {
-            this.error_false("landmark", "Length can't exceed 5");
-            this.progress=this.progress-7.6;
-          } else {
-            this.error_true("landmark", "");
-          }
-        }
-        this.progressFour();
-        break;
-      case "zipcode":
-        {
-          // this.progress=90;
-          if (e.target.value.length ==6) {
-            this.error_true("zipcode", "");
-          } else if(e.target.value.length >=7){
-            this.error_false("zipcode", "Length must be 6");
-          }else if(e.target.value.length == ""){
-            this.error_false("zipcode", "can't be blank");
-            this.progress=this.progress-7.6;
-          }else {
-            this.error_false("zipcode", "Invalid zipcode");
-          }
-        }
-        this.progressFive();
-        break;
+    if (value.length === 0) {
+      this.error_false(type, rule.emptyError);
+    } else if (rule && rule.condition) {
+      this.error_true(type, rule.success);
+    } else if (rule) {
+      this.error_false(type, rule.error);
+    }
+
+    if (type === "name") {
+      this.progressOne();
+    } else if (type === "empCode") {
+      this.progressTwo();
+    } else if (type === "address") {
+      this.progressThree();
+    } else if (type === "landmark") {
+      this.progressFour();
+    } else if (type === "zipcode") {
+      this.progressFive();
     }
   }
-
   submit(e) {
     e.preventDefault();
     if (
@@ -896,6 +1122,9 @@ export class MyElement extends LitElement {
       this.empForm.address1.value = "";
       form.reset();
       alert("Form submitted Successfully into local storage");
+    } else {
+      let alert = this.renderRoot.querySelector("sl-alert");
+      alert.show();
     }
   }
 }

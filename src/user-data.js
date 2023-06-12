@@ -27,7 +27,6 @@ export class Userdata extends LitElement {
           <img src="src/assets/sort.png" id="slogo"
         /></sl-button>
       </sl-tooltip>
-
       ${this.editData
         ? html` <dialog id="popUpForm">
             <my-element
@@ -108,22 +107,6 @@ export class Userdata extends LitElement {
     const popUp = this.renderRoot.querySelector("#popUpForm");
     popUp.showModal();
   }
-
-  // updateData(e) {
-  //   e.preventDefault();
-  //   const UpdatedName = this.shadowRoot.querySelector("#name").value;
-  //   const UpdatedEmpCode = this.shadowRoot.querySelector("#empCode").value;
-  //   const UpdatedEmail = this.shadowRoot.querySelector("#email").value;
-  //   if (UpdatedName && UpdatedEmpCode) {
-  //     const items = this.savedData[this.index];
-  //     items.name = UpdatedName;
-  //     items.empCode = UpdatedEmpCode;
-  //     items.email = UpdatedEmail;
-  //     localStorage.setItem("myFormData", JSON.stringify(this.savedData));
-  //     window.location.reload();
-  //     this.requestUpdate();
-  //   }
-  // }
 
   cancelData() {
     this.editData = undefined;
@@ -305,7 +288,7 @@ export class Userdata extends LitElement {
         border: none;
         outline: none;
         width: 70%;
-        height: 70%;
+        height:90%;
         padding: 0px;
       }
       dialog::-webkit-scrollbar {
@@ -321,20 +304,20 @@ export class Userdata extends LitElement {
         outline: 1px solid slategrey;
       }
       .btn-cancel {
-        background: linear-gradient(to left, #74ebd5, #9face6);
-        border-radius: 6px;
-        border: none;
-        outline: none;
-        display: block;
-        font-size: 16px;
-        padding: 15px 0;
-        margin-top: 20px;
-        width: 101%;
-        font-weight: bold;
-        text-transform: uppercase;
-        cursor: pointer;
-        color: #000000;
-        transition: all 1s ease;
+        background:linear-gradient(to left,#74ebd5,	#9face6);
+      border-radius:6px;
+      border:none;
+      outline:none;
+      display:block;
+      font-size:12px;
+      padding:12px 0;
+      margin:19px 0px;
+      width:30%;
+      font-weight:bold;
+      text-transform:uppercase;
+      cursor:pointer;
+      color:#000000;
+      transition:all 1s ease;
       }
       .btn-cancel:hover {
         background: linear-gradient(to right, #74ebd5, #9face6);
