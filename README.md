@@ -1,11 +1,23 @@
 # Emp-Form
-Employee Form using lit+vite, Javascript ,CSS, HTML
-<ul>
-  To install lit+vite and run run in VS Code terminal
-<li>npm create vite@latest</li>
-<li>npm install</li>
-<li>npm run dev</li>
-</ul>
+
+A simple **Employee Form** project built using **Lit + Vite, JavaScript, CSS, and HTML**.  
+This is just a playground project created for experimenting with Lit and Vite setup.  
+
+
+## Installation & Setup
+
+To install dependencies and run the project in **VS Code terminal**:
+
+```bash
+# Create a new Vite project
+npm create vite@latest
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+  
 
 Project Images
 
